@@ -1,7 +1,36 @@
-Comments: FNAME    LNAME    UOID    EMAIL    PHONETIC    REVEAL    NUMCALLED(opt)    NUMFLAGGED(opt)    DATES(opt)[date1 date2 ...]
-Noah    Tigner    123456789    notig@uoregon.edu    no-uh    0    5    1    [01/12/20 03/12/20 04/12/20 05/12/20 06/12/20 12/12/20]
-Lucas    Hyatt    951550079    llh@uoregon.edu    loo-kiss    0    1    0    []
-Maura    McCabe    111222333    maura@uoregon.edu    mor-uh    0    1    0    []
-Yin    Jin    123789456    yjin@uoregon.edu    yi-n    0    1    0    []
-Anthony    Hornoff    123456789    noff@uoregon.edu    hor-noff    0    0    2    []
-Jimmy    Lam    987654321    jim@uoregon.edu    ji-mee    0    1    0    []
+Comments: FNAME    LNAME    UOID    EMAIL    PHONETIC    REVEAL    NUMCALLED(opt)    NUMFLAGGED(opt)
+Maura	McCabe	951589670	mmccabe@uoregon.edu	more-ah	0	5	1
+Lucas	Hyatt	951567452	lhyatt@uoregon.edu	loo-kiss	0	1	0
+Noah	Tigner	951573928	ntigner@uoregon.edu	no-ah	0	6	0
+yin		Jin		951739281	yjin@uoregon.edu	yin	0	1	0
+Jimmy	Lam		951263812	jlam@uoregon.edu	jim-e	0	2	0
+Natalie	Hoens	917382038	nhoens@uoregon.edu	nat-ah-lee	0	1	1
+Madeline	Schaeffer	926183913	mschaeffer@uoregon.edu	mad-e-lin	0	5	0
+Kelly	Oosterman	928491038	koosterman@uoregon.edu	kel-ee	0	1	1
+Rachel	Overgaard	839204949	Roovergard@uoregon.edu	rach-el	0	3	0
+Danielle	Stallings	897654328	dstallings@uoregon.edu	dan-yell	0	0	0
+Maya	Knighton	839284617	mknighton@uoregon.edu	my-yah	0	0	0
+MacKenzie	St Peter	826473251	kstpeter@uoregon.edu	ma-kenzie	0	3	1
+Katherine	Little	362718467	klittle@uoregon.edu	kate-ee	0	0	0
+Ariana	Mitha	234567864	amitha@uoregon.edu	are-ee-ana	0	2	0
+Kori	Nemec	738291038	knemec@uoregon.edu	core-ee	0	0	0
+Anna	Litchman	264839284	alitchman@uoregon.edu	anne-ah	0	2	0
+Zach	Marinelli	837261549	zmarinelli@uoregon.edu	zak	0	3	1
+Andrew	Theo	332378163	atheo@uoregon.edu	an-drew	0	4	0
+James	Kang	738201000	jkang@uoregon.edu	jame-s	0	8	1
+Kiana	Hosaka	362122678	khosaka@uoregon.edu	kee-awn-ah	0	6	2
+Alex	Goldman	278798009	agoldman@uoregon.edu	al-ex	0	2	0
+Greg	Stein	876543235	gstein@uoregon.edu	gre-g	0	1	0
+Morgan	Leone	573820380	mleone@uoregon.edu	more-gan	0	0	0
+Lizzy	Mansukani	264738291	lmansukani@uoregon.edu	liz-ee	0	7	2
+Zoe Light	847382910	zlight@uoregon.edu	zo-ee	0	0	0
+Mary	Farrell	837261999	mfarrell@uoregon.edu	mare-ee	0	4	0
+Michael	Fractor	555555555	mfractor@uoregon.edu	mike-al	0	8	3
+Sara	Troeger	666666666	stroeger@uoregon.edu	sar-ah	0	0	0
+Johann	Wilson	444422839	jwilson@uoregon.edu	yo-han	0	1	0
+Jared	Stein	564738576	jstein@uoregon.edu	jare-ed	0	0	0
+Kelly	Franks	476666758	kfranks@uoregon.edu	kel-ee	0	4	1
+Anthony	Marinelli	987899098	amarinelli@uoregon.edu	0	6	0
+Cynthia	Gomes	998722322	cgomes@uoregon.edu	0	0	0
+Cora	Marinelli	226472839	cmarinelli@uoregon.edu	0	0	0
+Allison	Gist	775648396	agist@uoregon.edu	0	1	1
