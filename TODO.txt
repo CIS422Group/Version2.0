@@ -4,6 +4,7 @@ Buttons for log files
 Quit button for user view DONE
 Status bar for user view
 Move file location of logs from resources folder.
+display error box if user doesnt import roster first
 
 Write programmer documentation
 Document code
