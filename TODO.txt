@@ -1,7 +1,7 @@
-Close all windows (including User View) 
-Opening multiple windows
+Close all windows (including User View) DONE
+Opening multiple windows DONE
 Buttons for log files
-Quit button for user view
+Quit button for user view DONE
 Status bar for user view
 Move file location of logs from resources folder.
 
