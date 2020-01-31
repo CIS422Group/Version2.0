@@ -1,3 +1,0 @@
-rm -r dist
-rm -r build
-python3 setup.py py2app
