@@ -210,7 +210,7 @@ root = tk.Tk() #Establishes structure for app window
 root.resizable(False, False)
 root.title("Cold Call System")
 root.attributes("-topmost", True)  # open window in front
-
+root.protocol("WM_DELETE_WINDOW", exitProgram)  # calls closeWindow() if user clicks red 'x'
 
 pane = tk.Frame(root, bg = '#0486ff', bd=30)
 pane.pack(fill = tk.BOTH, expand = True)
