@@ -1,19 +1,16 @@
-# from objects import Student, classQueue
-from backend.objects import Student, classQueue
+from objects import Student, classQueue
+import tkinter as tk
+import time
 import random
 
 # only first N% in the quene may be deck, N ->(30-50)
 N = 45
 
 def N_index(length):
-    index = 0 
-    if length < 12:
-        index = 5
-    else:
-        index = int(length * N / 100) - 1
-    # print(index)
-    return index
+	index = int(length  * N / 100) - 1
+	# print(index)
 
+	return index
 
 # N_index()
 
@@ -29,7 +26,7 @@ def pickOneStudent(onDeck,Roster):
     n = N_index(Roster.length)
 
     # pick a student , place remove it from the original place and put it at the end
-    index = random.randint(0,n)
+    index = random.randint(0,n);
     victimStudent = Roster.removeIndex(index)
     victimStudent.numCalled += 1
     Roster.enqueue(victimStudent)
@@ -38,10 +35,78 @@ def pickOneStudent(onDeck,Roster):
     onDeck.enqueue(victimStudent)
     return victimStudent
 
-def initRoster():
-    # init a Roster which is a quene of a Student objects 
+def initDeck(onDeck, Roster):
+    # initial four name
+    for i in range(4):
+        pickOneStudent(onDeck, Roster)
+
+    return None
+
+
+def left(cur_index, onDeck, Roster):
+    cur_index = (cur_index -1 ) % 4
+    return cur_index
+
+def right(cur_index, onDeck, Roster):
+    cur_index = (cur_index + 1) % 4
+    return cur_index
+
+def up(cur_index, onDeck, Roster, flagQ):
+    # flag the student that picked (in current_Index)
+    student = onDeck.queue[cur_index]
+    # student.numFlags += 1
+    for sd in Roster.queue:
+        if (sd.uoID == student.uoID):
+            sd.numFlags += 1
+
+    onDeck.removeIndex(cur_index)
+    sd = pickOneStudent(onDeck, Roster)
+    flagQ.enqueue(sd)
+    return 0
+
+def down(cur_index, onDeck, Roster):
+    # remove one student that been picked
+    onDeck.removeIndex(cur_index)
+    sd = pickOneStudent(onDeck, Roster)
+    return 0
+
+def OnDeckString(cur_index, onDeck):
+    # formate four name
+    # return the information of day to day mode that update() in GUI need 
+
+    if (onDeck.length != 4):
+        print("Error: not enough student on Deck")
+        return 0
+
+    inText = "Next students:"
+
+    for i in range(4):
+        student = onDeck.queue[i]
+        name = "  " + student.fname + " " + student.lname
+
+        if (i == cur_index):
+            highlightStart = len(inText) + 2
+            highlightEnd = len(inText) + len(name)
+
+        inText += name
+
+    return inText, highlightStart, highlightEnd
+
+
+
+def main():
+    # creat a golable Roster which is a quene of a Student object
     Roster = classQueue()
-    
+
+    # 4 student object on deck, current_Index will be the index 
+    onDeck = classQueue()
+    # the picked student's index in onDeck queue
+    current_Index = 0
+
+    # a list of student been flag
+    flagQ = classQueue()
+
+
     # delet later
     # replace with a function later
     student1 = Student("Lucas", "Hyatt", 951550079, "llh@uoregon.edu", "loo-kiss", True, 0, 0, [])
@@ -69,121 +134,30 @@ def initRoster():
     Roster.enqueue(student10)
     Roster.enqueue(student11)
     Roster.enqueue(student12)
-    return Roster
-
-def initDeck(Roster):
-    # given a Roster, 
-    # return onDeck Quene: 4 student object
-    onDeck = classQueue()
-
-    for i in range(4):
-        pickOneStudent(onDeck, Roster)
-
-    return onDeck
 
 
-def left(cur_index, onDeck, Roster):
-    cur_index = (cur_index -1 ) % 4
-    return cur_index
+    print("\n\n############ sucessfuly import ###################\n\n")
 
-def right(cur_index, onDeck, Roster):
-    cur_index = (cur_index + 1) % 4
-    return cur_index
-
-def up(cur_index, onDeck, Roster, flagQ):
-    # flag the student that picked (in current_Index)
-    student = onDeck.queue[cur_index]
-    # student.numFlags += 1
-    for sd in Roster.queue:
-        if (sd.uoID == student.uoID):
-            sd.numFlags += 1
-            flagQ.enqueue(sd)
-            break;
-
-    onDeck.removeIndex(cur_index)
-    pickOneStudent(onDeck, Roster)
-
-    # reset the current_index to 0
-    return 0
-
-def down(cur_index, onDeck, Roster):
-    # remove one student that been picked
-    onDeck.removeIndex(cur_index)
-    pickOneStudent(onDeck, Roster)
-    return 0
-
-def OnDeckString(cur_index, onDeck):
-    # formate four name
-    # return the information of day to day mode that update() in GUI need 
-
-    if (onDeck.length != 4):
-        print("Error: not enough student on Deck")
-        return 0
-
-    # inText = "Next students:"
-    inText = " "
-
-
-    for i in range(4):
-        student = onDeck.queue[i]
-        name = "  " + student.fname + " " + student.lname
-
-        if (i == cur_index):
-            highlightStart = len(inText) + 2
-            highlightEnd = len(inText) + len(name)
-
-        inText += name
-
-    return inText, highlightStart, highlightEnd
-
-def importFun():
-    # used for testing import file
-    print("!!!!!!!!!!!!!!!!!!")
-    print("sucessfuly import file control")
-
-
-
-
-def main():
-    # init all the imformation
-    Roster = initRoster()
-
-    # # 4 student object on deck, current_Index will be the index 
-    onDeck = initDeck(Roster)
-
-    # the picked student's index in onDeck queue
-    current_Index = 0
-
-    # a list of student been flag
-    flagQ = classQueue()
-
-    # print(OnDeckString(current_Index, onDeck))
-
-
-
-    print("\n\n############ sucessfuly import!! ###################\n\n")
-
-    # onDeck = initDeck(Roster)
-    # print(OnDeckString(current_Index, onDeck))
+    initDeck(onDeck,Roster)
+    print(OnDeckString(current_Index, onDeck))
 
     # 1
-    # current_Index = right(current_Index, onDeck, Roster)
-    # print(OnDeckString(current_Index, onDeck))
+    current_Index = right(current_Index, onDeck, Roster)
+    print(OnDeckString(current_Index, onDeck))
 
     # 0
-    # current_Index = left(current_Index, onDeck, Roster)
-    # # 3
-    # current_Index = left(current_Index, onDeck, Roster)
-    # # 2
-    # current_Index = left(current_Index, onDeck, Roster)
-    # # 1
-    # current_Index = left(current_Index, onDeck, Roster)
+    current_Index = left(current_Index, onDeck, Roster)
+    # 3
+    current_Index = left(current_Index, onDeck, Roster)
+    # 2
+    current_Index = left(current_Index, onDeck, Roster)
+    # 1
+    current_Index = left(current_Index, onDeck, Roster)
 
     print(OnDeckString(current_Index, onDeck))
 
     current_Index = up(current_Index, onDeck, Roster, flagQ)
     print(OnDeckString(current_Index, onDeck))
-    flagQ.printQ()
 
     current_Index = right(current_Index, onDeck, Roster)
     # print(OnDeckString(current_Index, onDeck))
