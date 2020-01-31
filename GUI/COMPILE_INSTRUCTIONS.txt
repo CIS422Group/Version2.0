@@ -1,0 +1,16 @@
+There should be an app called GUI.app in the GUI directory, and you can double click
+the app to open it.
+
+
+TO COMPILE THE APP:
+1. Make sure to download version 0.13 of py2app by entering the following to the terminal:
+
+            pip install py2app==0.13
+
+   Note: the latest version (0.20) will not compile the code correctly.
+
+2. To change the python file that the app compiles, in setup.py, change the name
+
+            APP = ['GUI.py']    to     APP = ['<filename.py>']
+
+3. Run the 'compile' executable (python3 setup.py py2app). This will create two folders: build and dist.The app should be located inside the 'dist' folder.

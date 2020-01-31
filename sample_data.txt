@@ -1,0 +1,7 @@
+Comments: FNAME    LNAME    UOID    EMAIL    PHONETIC    REVEAL    NUMCALLED(opt)    NUMFLAGGED(opt)    DATES(opt)[date1 date2 ...]
+Noah    Tigner    123456789    notig@uoregon.edu    no-uh    0    5    1    [01/12/20 03/12/20 04/12/20 05/12/20 06/12/20 12/12/20]
+Lucas    Hyatt    951550079    llh@uoregon.edu    loo-kiss    0    1    0    []
+Maura    McCabe    111222333    maura@uoregon.edu    mor-uh    0    1    0    []
+Yin    Jin    123789456    yjin@uoregon.edu    yi-n    0    1    0    []
+Anthony    Hornoff    123456789    noff@uoregon.edu    hor-noff    0    0    2    []
+Jimmy    Lam    987654321    jim@uoregon.edu    ji-mee    0    1    0    []
