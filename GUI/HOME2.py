@@ -194,10 +194,10 @@ def exports():
     writeLogFile()
 
 def openDaily(): # Opens the daily log file
-    os.system("./../dailyLogFile.txt")
+    os.system("open ./../dailyLogFile.txt")
 
 def openSummary(): # Opens the summary log file
-    os.system("./../SummaryPerformanceFile.txt")
+    os.system("open ./../SummaryPerformanceFile.txt")
 
 def exitProgram():
     window = GUI.getUserViewWindow()  # USER_VIEW_WINDOW global var must be set right after creating window
