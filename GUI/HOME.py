@@ -31,7 +31,7 @@ def switch_view():
     if not GUI.userViewOpen():  # prevent 2 user view windows from opening simultaneously
         GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
 
-def inputFile(delimiter = "    "):
+def inputFile(delimiter = None):
     global ROSTERPATH
 
     filepath = filedialog.askopenfilename(initialdir="./..", title="Select File")
@@ -44,7 +44,10 @@ def inputFile(delimiter = "    "):
         with open(filepath, "r") as f:
             next(f)     # skip first line of roster file (comments)
             for i, line in enumerate(f):
+
                 elements = line.strip().split(delimiter)
+
+                print(elements)
 
                 try:
                     fname = str(elements[0])
