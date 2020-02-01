@@ -18,7 +18,9 @@ from backend.control import *
 # from HOME import overwriteRosterFile
 
 USER_VIEW_OPEN = 0
-USER_VIEW_WINDOW = None
+ERROR_OPEN = 0
+USER_VIEW_WINDOW = None  # to pass user view window to HOME.py
+ERROR_WINDOW = None
 
 def overwriteRosterFile(roster, studentQueue, delimiter="    "):
     # global ROSTERPATH
@@ -104,6 +106,7 @@ class GUI:
         self.mainWindow.destroy()
         global USER_VIEW_OPEN
         global USER_VIEW_WINDOW
+
         USER_VIEW_OPEN = 0
         USER_VIEW_WINDOW = None
 
@@ -162,10 +165,16 @@ class _MessageBox:
         self.canvasHeight = 170
         self.root = tk.Tk()
 
+        self.root.protocol("WM_DELETE_WINDOW", self.closeBox)  # calls closeBox() if user clicks red 'x'
         self.iconFile = None
 
     def closeBox(self):
         self.root.destroy()
+        global ERROR_OPEN
+        global ERROR_WINDOW
+
+        ERROR_OPEN = 0
+        ERROR_WINDOW = None
 
     def display(self):
 
@@ -212,7 +221,14 @@ class WarningBox(_MessageBox):
         self.iconFile = 'warning_icon.gif'
 
 def displayError(title: str, heading: str, msg: str):
-    ErrorBox(title, heading, msg).display()
+    global ERROR_OPEN
+    global ERROR_WINDOW
+
+    if ERROR_OPEN == 1:
+        return
+    ERROR_OPEN = 1
+    ERROR_WINDOW = ErrorBox(title, heading, msg)
+    ERROR_WINDOW.display()
 
 def displayWarning(title: str, heading: str, msg: str):
     WarningBox(title, heading, msg).display()
@@ -222,6 +238,9 @@ def userViewOpen():
 
 def getUserViewWindow():
     return USER_VIEW_WINDOW
+
+def getErrorWindow():
+    return ERROR_WINDOW
 
 def testArrowKeys():
     """ Opens the GUI with 4 names, and the window remains unchanged.
