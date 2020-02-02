@@ -4,6 +4,9 @@ Last Modified: 1/30/20
 
 Author: Noah Tigner
 Last Modified: 2/01/20
+
+Author: Jimmy Lam
+Last Modified: 2/2/20
 '''
 
 
@@ -29,7 +32,12 @@ ROSTERPATH = "" # global roster path, set by inputFile
 
 def switch_view():
     if not GUI.userViewOpen():  # prevent 2 user view windows from opening simultaneously
-        GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
+        if ROSTERPATH != '':
+            GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
+        else:
+            messageBox = tk.messagebox.askokcancel('Load class roster', 'Please select a class roster', icon='info')
+            if messageBox:
+                inputFile()
 
 def inputFile(firstTime=False, delimiter=None):
     ''' 
