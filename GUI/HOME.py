@@ -38,6 +38,9 @@ def inputFile(delimiter = None):
     if filepath == '':
         return
 
+    if filepath[-4:] != '.txt':
+        GUI.displayError('file type error', 'Unable to open file', 'File must be a text file')
+
     ROSTERPATH = filepath
 
     try:
@@ -235,37 +238,37 @@ label_font = tkinter.font.Font(family="Helvetica",size=25,weight="bold")
 progress['value'] = 25
 progress.pack(side=tk.BOTTOM)'''
 
-label = tk.Label(pane, text="HOME MENU")
+label = tk.Label(pane, text="HOME MENU", bg='#0486ff')
 label['font'] = label_font
-label.grid(row=0, column=0, pady=(0, 30))
+label.grid(row=0, column=0)
 
-user_view = tk.Button(pane, pady=8, text="User View", highlightbackground='#0486ff', command=switch_view)
+user_view = tk.Button(pane, pady=8, width=15, text="User View", highlightbackground='#0486ff', command=switch_view)
 # user_view.pack(side=tk.LEFT) 
 user_view['font'] = button_font
 user_view.grid(row=1, column=0)
 
-input_roster = tk.Button(pane, pady=8, text="Input a Roster", highlightbackground='#0486ff', command=inputFile)
+input_roster = tk.Button(pane, pady=8, width=15, text="Input a Roster", highlightbackground='#0486ff', command=inputFile)
 # input_roster.pack(side=tk.LEFT)
 input_roster['font'] = button_font
 input_roster.grid(row=2, column=0)
 
-export_calls = tk.Button(pane, pady=8, text="Export to Logs", highlightbackground='#0486ff', command=exports)
+export_calls = tk.Button(pane, pady=8, width=15, text="Export to Logs", highlightbackground='#0486ff', command=exports)
 # export_calls.pack(side=tk.LEFT) 
 export_calls['font'] = button_font
 export_calls.grid(row=3, column=0)
 
-daily_log = tk.Button(pane, pady=8, text="Daily Log File", highlightbackground='#0486ff', command=openDaily)
+daily_log = tk.Button(pane, pady=8, width=15, text="Daily Log File", highlightbackground='#0486ff', command=openDaily)
 # daily_log.pack(side=tk.BOTTOM) 
 daily_log['font'] = button_font
 daily_log.grid(row=4, column=0)
 
-summary_performance = tk.Button(pane, pady=8, text="Performance File", highlightbackground='#0486ff', command=openSummary)
+summary_performance = tk.Button(pane, pady=8, width=15, text="Performance File", highlightbackground='#0486ff', command=openSummary)
 # summary_performance.pack(side=tk.BOTTOM) 
 summary_performance['font'] = button_font
 summary_performance.grid(row=5, column=0)
 
-exit_menu = tk.Button(pane, pady=8, text="Exit Program", highlightbackground='#0486ff', command=exitProgram)
-# exit_menu.pack(side=tk.BOTTOM) 
+exit_menu = tk.Button(pane, pady=8, width=15, text="Exit Program", highlightbackground='#0486ff', fg='red', command=exitProgram)
+# exit_menu.pack(side=tk.BOTTOM)
 exit_menu['font'] = button_font
 exit_menu.grid(row=6, column=0)
 
