@@ -31,9 +31,8 @@ def pickOneStudent(onDeck,Roster):
     # pick a student , place remove it from the original place and put it at the end
     index = random.randint(0,n);
     victimStudent = Roster.removeIndex(index)
-    victimStudent.numCalled += 1
+    # victimStudent.numCalled += 1
     Roster.enqueue(victimStudent)
-
     # 
     onDeck.enqueue(victimStudent)
     return victimStudent
@@ -51,12 +50,12 @@ def initRoster():
     student5 = Student("Yin", "Jin", 123789456, "yjin@uoregon.edu", "yi-n", False, 0, 0, [])
     student6 = Student("Anthony", "Hornoff", 123456789, "noff@uoregon.edu", "hor-noff", True, 0, 0, [])
 
-    student7 = Student("Lucas1", "Hyatt", 951550076, "llh@uoregon.edu", "loo-kiss", True, 0, 0, [])
-    student8 = Student("Maura1", "McCabe", 111222336, "maura@uoregon.edu", "mor-uh", True, 0, 0, [])
-    student9 = Student("Noah1", "Tigner", 123456786, "notig@uoregon.edu", "no-uh", False, 0, 0, [])
-    student10= Student("Jimmy1", "Lam", 987654326, "jim@uoregon.edu", "ji-mee", True, 0, 0, [])
-    student11 = Student("Yin1", "Jin", 123789455, "yjin@uoregon.edu", "yi-n", False, 0, 0, [])
-    student12 = Student("Anthony1", "Hornoff", 123456786, "noff@uoregon.edu", "hor-noff", True, 0, 0, [])
+    student7 = Student("Ann", "Hyatt", 951550076, "llh@uoregon.edu", "loo-kiss", True, 0, 0, [])
+    student8 = Student("Nation", "McCabe", 111222336, "maura@uoregon.edu", "mor-uh", True, 0, 0, [])
+    student9 = Student("Jessie", "Tigner", 123456786, "notig@uoregon.edu", "no-uh", False, 0, 0, [])
+    student10= Student("Harry", "Lam", 987654326, "jim@uoregon.edu", "ji-mee", True, 0, 0, [])
+    student11 = Student("Haihan", "Jin", 123789455, "yjin@uoregon.edu", "yi-n", False, 0, 0, [])
+    student12 = Student("Quan", "Hornoff", 123456786, "noff@uoregon.edu", "hor-noff", True, 0, 0, [])
     Roster.enqueue(student1)
     Roster.enqueue(student2)
     Roster.enqueue(student3)
@@ -94,9 +93,13 @@ def up(cur_index, onDeck, Roster, flagQ):
     # flag the student that picked (in current_Index)
     student = onDeck.queue[cur_index]
     # student.numFlags += 1
+
+    # update the imformation for picked student 
     for sd in Roster.queue:
         if (sd.uoID == student.uoID):
+            sd.numCalled += 1
             sd.numFlags += 1
+            sd.reveal = 1
             flagQ.enqueue(sd)
             break;
 
@@ -108,7 +111,12 @@ def up(cur_index, onDeck, Roster, flagQ):
 
 def down(cur_index, onDeck, Roster):
     # remove one student that been picked
-    onDeck.removeIndex(cur_index)
+    student = onDeck.removeIndex(cur_index)
+    # update the imformation for picked student 
+    for sd in Roster.queue:
+        if (sd.uoID == student.uoID):
+            sd.numCalled += 1
+            break;
     pickOneStudent(onDeck, Roster)
     return 0
 
@@ -141,62 +149,86 @@ def importFun():
     print("!!!!!!!!!!!!!!!!!!")
     print("sucessfuly import file control")
 
+def testRandomness():
 
-
-
-def main():
     # init all the imformation
     Roster = initRoster()
 
-    # # 4 student object on deck, current_Index will be the index 
+    # 4 student object on deck, current_Index will be the index
     onDeck = initDeck(Roster)
 
-    # the picked student's index in onDeck queue
-    current_Index = 0
+    total = 10000
+    for i in range(total):
+        current_Index = down(0, onDeck, Roster)
 
-    # a list of student been flag
-    flagQ = classQueue()
-
-    # print(OnDeckString(current_Index, onDeck))
-
-
-
-    print("\n\n############ sucessfuly import!! ###################\n\n")
-
-    # onDeck = initDeck(Roster)
-    # print(OnDeckString(current_Index, onDeck))
-
-    # 1
-    # current_Index = right(current_Index, onDeck, Roster)
-    # print(OnDeckString(current_Index, onDeck))
-
-    # 0
-    # current_Index = left(current_Index, onDeck, Roster)
-    # # 3
-    # current_Index = left(current_Index, onDeck, Roster)
-    # # 2
-    # current_Index = left(current_Index, onDeck, Roster)
-    # # 1
-    # current_Index = left(current_Index, onDeck, Roster)
-
-    print(OnDeckString(current_Index, onDeck))
-
-    current_Index = up(current_Index, onDeck, Roster, flagQ)
-    print(OnDeckString(current_Index, onDeck))
-    flagQ.printQ()
-
-    current_Index = right(current_Index, onDeck, Roster)
-    # print(OnDeckString(current_Index, onDeck))
-
-    current_Index = down(current_Index, onDeck, Roster)
-    print(OnDeckString(current_Index, onDeck))
-
-
-    # Roster.printQ()
+    print("\n\n############ Report ###################\n\n")
+    li = []
     for i in range(Roster.length):
         print("Queue at index", i, "has", end = " ")
         sd = Roster.queue[i]
-        print(sd.fname, sd.numCalled, sd.numFlags)
+        li.append(sd.numCalled/total)
+        print(sd.fname, sd.numCalled, "chance been called: ", sd.numCalled / total)
+
+
+    print("\nRange for chance been called:", round(max(li) - min(li), 4), "\n")
+
+def main():
+
+    testRandomness()
+
+
+#     # init all the imformation
+#     Roster = initRoster()
+
+#     # # 4 student object on deck, current_Index will be the index 
+#     onDeck = initDeck(Roster)
+
+#     # the picked student's index in onDeck queue
+#     current_Index = 0
+
+#     # a list of student been flag
+#     flagQ = classQueue()
+
+#     # print(OnDeckString(current_Index, onDeck))
+
+
+
+#     print("\n\n############ sucessfuly import!! ###################\n\n")
+
+#     # onDeck = initDeck(Roster)
+#     print(OnDeckString(current_Index, onDeck))
+
+#     # 1
+#     # current_Index = right(current_Index, onDeck, Roster)
+#     # print(OnDeckString(current_Index, onDeck))
+
+#     # 0
+#     # current_Index = left(current_Index, onDeck, Roster)
+#     # # 3
+#     # current_Index = left(current_Index, onDeck, Roster)
+#     # # 2
+#     # current_Index = left(current_Index, onDeck, Roster)
+#     # # 1
+#     # current_Index = left(current_Index, onDeck, Roster)
+
+#     # print(OnDeckString(current_Index, onDeck))
+
+#     current_Index = up(current_Index, onDeck, Roster, flagQ)
+#     print(OnDeckString(current_Index, onDeck))
+#     flagQ.printQ()
+
+#     # current_Index = right(current_Index, onDeck, Roster)
+#     # print(OnDeckString(current_Index, onDeck))
+
+#     current_Index = down(current_Index, onDeck, Roster)
+#     print(OnDeckString(current_Index, onDeck))
+
+
+#     # Roster.printQ()
+#     for i in range(Roster.length):
+#         print("Queue at index", i, "has", end = " ")
+#         sd = Roster.queue[i]
+#         print(sd.fname, sd.numCalled, sd.numFlags, sd.reveal)
 
 
     # print("On Deck")
