@@ -93,7 +93,7 @@ def inputFile(firstTime=False, delimiter=None):
                         dates = [datetime.strptime(date, "%d/%m/%y") for date in dates]
                         dates.sort(key = lambda date: date)
                         dates = [date.strftime("%d/%m/%y") for date in dates]
-                        dates = '['  + ' '.join(dates) + ']'
+                        # dates = '['  + ' '.join(dates) + ']'
                         
                     else:
                         numCalled = 0
