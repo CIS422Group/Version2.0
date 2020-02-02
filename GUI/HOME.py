@@ -388,32 +388,32 @@ label['font'] = label_font
 label.grid(row=0, column=0)
 
 #Button for the user view
-user_view = tk.Button(pane, pady=8, width=15, text="User View", highlightbackground='#0486ff', command=switch_view)
+user_view = tk.Button(pane, pady=8, width=16, text="User View", highlightbackground='#0486ff', command=switch_view)
 user_view['font'] = button_font
 user_view.grid(row=1, column=0)
 
 #Button for inputting a roster
-input_roster = tk.Button(pane, pady=8, width=15, text="Input a Roster", highlightbackground='#0486ff', command=inputFile)
+input_roster = tk.Button(pane, pady=8, width=16, text="Import New Roster", highlightbackground='#0486ff', command=inputFile)
 input_roster['font'] = button_font
 input_roster.grid(row=2, column=0)
 
 #Button for exporting to logs
-export_calls = tk.Button(pane, pady=8, width=15, text="Export to Logs", highlightbackground='#0486ff', command=exports)
+export_calls = tk.Button(pane, pady=8, width=16, text="Export to Logs", highlightbackground='#0486ff', command=exports)
 export_calls['font'] = button_font
 export_calls.grid(row=3, column=0)
 
 #Button for displaying the daily log
-daily_log = tk.Button(pane, pady=8, width=15, text="Daily Log File", highlightbackground='#0486ff', command=openDaily)
+daily_log = tk.Button(pane, pady=8, width=16, text="Daily Log File", highlightbackground='#0486ff', command=openDaily)
 daily_log['font'] = button_font
 daily_log.grid(row=4, column=0)
 
 #Button for the displaying the summary performance file
-summary_performance = tk.Button(pane, pady=8, width=15, text="Performance File", highlightbackground='#0486ff', command=openSummary)
+summary_performance = tk.Button(pane, pady=8, width=16, text="Performance File", highlightbackground='#0486ff', command=openSummary)
 summary_performance['font'] = button_font
 summary_performance.grid(row=5, column=0)
 
 #Button for exiting and closing the program (all windows)
-exit_menu = tk.Button(pane, pady=8, width=15, text="Exit Program", highlightbackground='#0486ff', fg='red', command=exitProgram)
+exit_menu = tk.Button(pane, pady=8, width=16, text="Exit Program", highlightbackground='#0486ff', fg='red', command=exitProgram)
 exit_menu['font'] = button_font
 exit_menu.grid(row=6, column=0)
 
