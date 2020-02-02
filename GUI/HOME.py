@@ -280,15 +280,18 @@ blue = #0486ff
 yellow = #ffde04
 '''
 
+#Creating a root and initializing attributes (foundation for GUI)
 root = tk.Tk() #Establishes structure for app window
 root.resizable(False, False)
 root.title("Cold Call System")
 root.attributes("-topmost", True)  # open window in front
 root.protocol("WM_DELETE_WINDOW", exitProgram)  # calls closeWindow() if user clicks red 'x'
 
+#Initializing pane to attach buttons and label to
 pane = tk.Frame(root, bg = '#0486ff', bd=30)
 pane.pack(fill = tk.BOTH, expand = True)
 
+#Initializing font for the buttons.
 button_font = tkinter.font.Font(family="Helvetica",size=20,weight="bold")
 label_font = tkinter.font.Font(family="Helvetica",size=25,weight="bold")
 
@@ -297,37 +300,38 @@ label_font = tkinter.font.Font(family="Helvetica",size=25,weight="bold")
 progress['value'] = 25
 progress.pack(side=tk.BOTTOM)'''
 
+#Label for the HOME MENU
 label = tk.Label(pane, text="HOME MENU", bg='#0486ff')
 label['font'] = label_font
 label.grid(row=0, column=0)
 
+#Button for the user view
 user_view = tk.Button(pane, pady=8, width=15, text="User View", highlightbackground='#0486ff', command=switch_view)
-# user_view.pack(side=tk.LEFT) 
 user_view['font'] = button_font
 user_view.grid(row=1, column=0)
 
+#Button for inputting a roster
 input_roster = tk.Button(pane, pady=8, width=15, text="Input a Roster", highlightbackground='#0486ff', command=inputFile)
-# input_roster.pack(side=tk.LEFT)
 input_roster['font'] = button_font
 input_roster.grid(row=2, column=0)
 
+#Button for exporting to logs
 export_calls = tk.Button(pane, pady=8, width=15, text="Export to Logs", highlightbackground='#0486ff', command=exports)
-# export_calls.pack(side=tk.LEFT) 
 export_calls['font'] = button_font
 export_calls.grid(row=3, column=0)
 
+#Button for displaying the daily log
 daily_log = tk.Button(pane, pady=8, width=15, text="Daily Log File", highlightbackground='#0486ff', command=openDaily)
-# daily_log.pack(side=tk.BOTTOM) 
 daily_log['font'] = button_font
 daily_log.grid(row=4, column=0)
 
+#Button for the displaying the summary performance file
 summary_performance = tk.Button(pane, pady=8, width=15, text="Performance File", highlightbackground='#0486ff', command=openSummary)
-# summary_performance.pack(side=tk.BOTTOM) 
 summary_performance['font'] = button_font
 summary_performance.grid(row=5, column=0)
 
+#Button for exiting and closing the program (all windows)
 exit_menu = tk.Button(pane, pady=8, width=15, text="Exit Program", highlightbackground='#0486ff', fg='red', command=exitProgram)
-# exit_menu.pack(side=tk.BOTTOM)
 exit_menu['font'] = button_font
 exit_menu.grid(row=6, column=0)
 
