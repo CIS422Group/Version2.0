@@ -1,12 +1,15 @@
 '''
 Author: Lucas Hyatt
 Last Modified: 1/30/20
+
+Author: Noah Tigner
+Last Modified: 2/01/20
 '''
 
 
 '''======================================Imports=========================================='''
 import tkinter as tk
-from tkinter import filedialog, Text
+from tkinter import filedialog, Text, messagebox
 import tkinter.ttk as ttk
 import tkinter.font
 import os
@@ -21,9 +24,6 @@ from objects import Student, classQueue
 
 '''======================================Functions=========================================='''
 
-# def switch_view():
-#     GUI.testcontrol()
-
 STUDENTQUEUE = classQueue()
 ROSTERPATH = "" # global roster path, set by inputFile
 
@@ -32,14 +32,37 @@ def switch_view():
         GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
 
 def inputFile(firstTime=False, delimiter=None):
-    global ROSTERPATH
+    ''' 
+    This method reads student data line by line from a roster file.
+    Each line is parsed and used to create a Student object, which is added to the global STUDENTQUEUE data structure.
+    
+    Args:   firstTime, a boolean representing if this method has been called before
+            delimiter, a string. By default, lines are split by whitespace, but commas may also be specified
+    
+    Returns:
+    '''
 
-    if not ROSTERPATH and not firstTime:
+    global ROSTERPATH, STUDENTQUEUE
+    # previous = ROSTERPATH   # Keep this in case an incorrect file is loaded in and we need to reset the path
+    previous = ""   # Keep this in case an incorrect file is loaded in and we need to reset the path
+
+    if not ROSTERPATH or not firstTime:
+
+        print(firstTime)
+        if len(STUDENTQUEUE.queue) > 0:\
+            # Warn the user before overwriting STUDENTQUEUE
+            messageBox = tk.messagebox.askquestion('Load New Data', 'Are you sure you want to load in a new file?', icon = 'warning')
+            if messageBox == 'no':
+                return
+
+        # Prompt the user to select a txt file
         filepath = filedialog.askopenfilename(initialdir="./..", title="Select File")
         if filepath == '':
             return
+
         ROSTERPATH = filepath
         setSettings(filepath)
+        STUDENTQUEUE = classQueue() # Overwrite the queue
 
     if ROSTERPATH[-4:] != '.txt' or ".txt" not in ROSTERPATH:
         print('File must be a text file')
@@ -60,7 +83,6 @@ def inputFile(firstTime=False, delimiter=None):
                     uoID = int(elements[2])
                     email = str(elements[3])
                     phonetic = str(elements[4])
-                    # reveal = bool(elements[5])
                     reveal = 0
 
                     if len(elements) >= 9:
@@ -86,6 +108,9 @@ def inputFile(firstTime=False, delimiter=None):
                 except (ValueError, IndexError):
                     print("Line {} of roster file is formatted incorrectly".format(i+1))
 
+                    ROSTERPATH = None
+                    setSettings(None)
+
                     # display error box
                     title = 'Value/Index Error'
                     heading = 'Unable to open file'
@@ -96,6 +121,9 @@ def inputFile(firstTime=False, delimiter=None):
     except FileNotFoundError:
         print('File Can\'t Be Opened')
 
+        ROSTERPATH = None
+        setSettings(None)
+
         # display error box
         title = 'File Can\'t Be Opened'
         heading = 'Unable to open file'
@@ -105,6 +133,9 @@ def inputFile(firstTime=False, delimiter=None):
     except:
         print('File Can\'t Be Opened')
 
+        ROSTERPATH = None
+        setSettings(None)
+
         # display error box
         title = 'File Can\'t Be Opened'
         heading = 'Unable to open file'
@@ -112,13 +143,20 @@ def inputFile(firstTime=False, delimiter=None):
         GUI.displayError(title, heading, msg)
         return
 
-    # FIXME: these calls are temporary
-    STUDENTQUEUE.printQ()
-    # writeSummaryPerformanceFile()
-    # overwriteRosterFile(ROSTERPATH, STUDENTQUEUE)
-
+    STUDENTQUEUE.printQ()    # FIXME: temporary
 
 def writeSummaryPerformanceFile():
+    ''' 
+    This method writes to SummaryPerformanceFile.txt.
+    The data of each student is written.
+    The format of each line is specified by the header variable below
+    
+    Args: 
+    
+    Returns:
+    '''
+
+    global STUDENTQUEUE
 
     filepath = "../SummaryPerformanceFile.txt"
     header = "Summary Performance File for the Cold-Call-Assist program. Number-of-Times-Called    Number-of-Flags    First-Name    Last-Name    UO-ID    Email    Phonetic-Spelling    Reveal-Code    List-of-Dates\n"
@@ -151,6 +189,16 @@ def writeSummaryPerformanceFile():
         return
 
 def writeLogFile():
+    ''' 
+    This method writes to dailyLogFile.txt.
+    Only the data of students whose reveal code is 1 are written.
+    
+    Args: 
+    
+    Returns:
+    '''
+
+    global STUDENTQUEUE
 
     if len(STUDENTQUEUE.queue) == 0:
         print("No data to log")
@@ -195,7 +243,17 @@ def writeLogFile():
         return
 
 def getSettings():
+    ''' 
+    This method attempts to open config.txt and retreive the path to the roster data file.
+    config.txt only exists after the first call to setSettings(), so this method is epected to fail on its first call
+    
+    Args: 
+    
+    Returns: 1 if successful, else nothing
+    '''
+
     global ROSTERPATH
+
     config = "../config.txt"
 
     try:
@@ -209,6 +267,15 @@ def getSettings():
         print("Unable to read settings from config.txt")
 
 def setSettings(path):
+    ''' 
+    This method writes the path of the roster file to config.txt, where it can be read by getSettings(). 
+    This function is called after the user selects a valid .txt file from the file selection window
+    
+    Args: path, the path to the roster data
+    
+    Returns: 
+    '''
+
     config = "../config.txt"
     try:
         with open(config, "w") as f:
@@ -234,6 +301,14 @@ def setSettings(path):
         return
 
 def exports():
+    '''
+    This is a simple helper function which we use to write to both log files during usage. 
+    This function is called when a user presses keys associated to flagging a student or in any way adjusting their student data within the queue
+
+    Args: 
+
+    Returns: 
+    '''
     writeSummaryPerformanceFile()
     writeLogFile()
 
@@ -264,11 +339,9 @@ def exitProgram():
 
 
 # Attempt to read default roster path from config.txt (this will fail the first time the program is run)
-try:
-    if getSettings():
-        inputFile(firstTime=True)
-except:
-    pass
+
+if getSettings():
+    inputFile(firstTime=True)
 
 '''======================================GUI=========================================='''
 
@@ -348,6 +421,7 @@ https://www.youtube.com/watch?v=u4ykDbciXa8&feature=youtu.be
 https://www.youtube.com/watch?v=qC3FYdpJI5Y&feature=youtu.be
 https://stackoverflow.com/questions/110923/how-do-i-close-a-tkinter-window
 https://www.tutorialspoint.com/python/tk_place.htm
+https://datatofish.com/message-box-python/
 '''
 
 
