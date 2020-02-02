@@ -193,6 +193,12 @@ def exports():
     writeSummaryPerformanceFile()
     writeLogFile()
 
+def openDaily(): # Opens the daily log file
+    os.system("open ./../dailyLogFile.txt")
+
+def openSummary(): # Opens the summary log file
+    os.system("open ./../SummaryPerformanceFile.txt")
+
 def exitProgram():
     window = GUI.getUserViewWindow()  # USER_VIEW_WINDOW global var must be set right after creating window
     errorWin = GUI.getErrorWindow()
@@ -222,27 +228,46 @@ pane = tk.Frame(root, bg = '#0486ff', bd=30)
 pane.pack(fill = tk.BOTH, expand = True)
 
 button_font = tkinter.font.Font(family="Helvetica",size=20,weight="bold")
+label_font = tkinter.font.Font(family="Helvetica",size=25,weight="bold")
 
 #Progress bar will show how many student out of the roster have been chosen.
 '''progress = ttk.Progressbar(pane, orient=tk.HORIZONTAL, length=496)
 progress['value'] = 25
 progress.pack(side=tk.BOTTOM)'''
 
+label = tk.Label(pane, text="HOME MENU")
+label['font'] = label_font
+label.grid(row=0, column=0, pady=(0, 30))
+
 user_view = tk.Button(pane, pady=8, text="User View", highlightbackground='#0486ff', command=switch_view)
-user_view.pack(side=tk.LEFT) 
+# user_view.pack(side=tk.LEFT) 
 user_view['font'] = button_font
+user_view.grid(row=1, column=0)
 
-input_roster = tk.Button(pane, pady=8, text="Input Roster", highlightbackground='#0486ff', command=inputFile)
-input_roster.pack(side=tk.LEFT)
+input_roster = tk.Button(pane, pady=8, text="Input a Roster", highlightbackground='#0486ff', command=inputFile)
+# input_roster.pack(side=tk.LEFT)
 input_roster['font'] = button_font
+input_roster.grid(row=2, column=0)
 
-export_calls = tk.Button(pane, pady=8, text="Export to Log", highlightbackground='#0486ff', command=exports)
-export_calls.pack(side=tk.LEFT) 
+export_calls = tk.Button(pane, pady=8, text="Export to Logs", highlightbackground='#0486ff', command=exports)
+# export_calls.pack(side=tk.LEFT) 
 export_calls['font'] = button_font
+export_calls.grid(row=3, column=0)
 
-exit_menu = tk.Button(pane, pady=8, text="Quit", highlightbackground='#0486ff', command=exitProgram)
-exit_menu.pack(side=tk.LEFT) 
+daily_log = tk.Button(pane, pady=8, text="Daily Log File", highlightbackground='#0486ff', command=openDaily)
+# daily_log.pack(side=tk.BOTTOM) 
+daily_log['font'] = button_font
+daily_log.grid(row=4, column=0)
+
+summary_performance = tk.Button(pane, pady=8, text="Performance File", highlightbackground='#0486ff', command=openSummary)
+# summary_performance.pack(side=tk.BOTTOM) 
+summary_performance['font'] = button_font
+summary_performance.grid(row=5, column=0)
+
+exit_menu = tk.Button(pane, pady=8, text="Exit Program", highlightbackground='#0486ff', command=exitProgram)
+# exit_menu.pack(side=tk.BOTTOM) 
 exit_menu['font'] = button_font
+exit_menu.grid(row=6, column=0)
 
 # Main Loop
 root.attributes("-topmost", False)  # allow window to go behind other windows
