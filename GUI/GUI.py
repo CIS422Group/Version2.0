@@ -87,7 +87,7 @@ class GUI:
 
         self.canvas = tk.Label(self.mainWindow)
         self.button = tk.Button(self.canvas, text="EXIT", width=10, height=2, command=self.closeWindow)
-        self.text = tk.Text(self.canvas, height=1, width=60, font=('Courier', 16))
+        self.text = tk.Text(self.canvas, height=1, width=70, font=('Courier', 16))
         self.canvas.pack()
         self.text.pack()
         self.button.pack()
@@ -151,6 +151,7 @@ class GUI:
         self.text.configure(state='normal')  # reset state in order to change the names
         self.text.delete('1.0', tk.END)      # clear names
         self.text.insert('1.0', inText)      # write text to GUI
+        self.text.configure(width=len(inText)+5)
 
         # now add highlighting
         self.text.tag_add('tag1', '1.{}'.format(highlightStart), '1.{}'.format(highlightEnd))
