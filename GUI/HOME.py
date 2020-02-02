@@ -238,10 +238,20 @@ def exports():
     writeLogFile()
 
 def openDaily(): # Opens the daily log file
-    os.system("open ./../dailyLogFile.txt")
+    val = os.system("open ./../dailyLogFile.txt")
+    if val == 256:
+        title = 'File Not Found'
+        heading = 'Unable to open Daily Log File'
+        msg = 'Please press "Export to Logs" to \ngenerate the file'
+        GUI.displayError(title, heading, msg)
 
 def openSummary(): # Opens the summary log file
-    os.system("open ./../SummaryPerformanceFile.txt")
+    val = os.system("open ./../SummaryPerformanceFile.txt")
+    if val == 256:
+        title = 'File Not Found'
+        heading = 'Unable to open Performance File'
+        msg = 'Please press "Export to Logs" to \ngenerate the file'
+        GUI.displayError(title, heading, msg)
 
 def exitProgram():
     window = GUI.getUserViewWindow()  # USER_VIEW_WINDOW global var must be set right after creating window

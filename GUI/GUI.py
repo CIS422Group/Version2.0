@@ -11,6 +11,7 @@ Last Modified: 1/28/20
 
 import tkinter as tk
 import time
+import os
 
 from backend.objects import Student, classQueue
 from backend.control import *
@@ -213,12 +214,12 @@ class _MessageBox:
 class ErrorBox(_MessageBox):
     def __init__(self, title: str, heading: str, msg: str):
         super().__init__(title, heading, msg)
-        self.iconFile = 'error_icon.gif'
+        self.iconFile = os.path.abspath(__file__)[:-6] + 'error_icon.gif'
 
 class WarningBox(_MessageBox):
     def __init__(self, title: str, heading: str, msg: str):
         super().__init__(title, heading, msg)
-        self.iconFile = 'warning_icon.gif'
+        self.iconFile = os.path.abspath(__file__)[:-6] + 'warning_icon.gif'
 
 def displayError(title: str, heading: str, msg: str):
     global ERROR_OPEN
