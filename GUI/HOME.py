@@ -43,8 +43,6 @@ def inputFile(firstTime=False, delimiter=None):
     '''
 
     global ROSTERPATH, STUDENTQUEUE
-    # previous = ROSTERPATH   # Keep this in case an incorrect file is loaded in and we need to reset the path
-    previous = ""   # Keep this in case an incorrect file is loaded in and we need to reset the path
 
     if not ROSTERPATH or not firstTime:
 
@@ -108,6 +106,7 @@ def inputFile(firstTime=False, delimiter=None):
                 except (ValueError, IndexError):
                     print("Line {} of roster file is formatted incorrectly".format(i+1))
 
+                    # Reset these in case of a bad input file
                     ROSTERPATH = None
                     setSettings(None)
 
@@ -121,6 +120,7 @@ def inputFile(firstTime=False, delimiter=None):
     except FileNotFoundError:
         print('File Can\'t Be Opened')
 
+        # Reset these in case of a bad input file
         ROSTERPATH = None
         setSettings(None)
 
@@ -133,6 +133,7 @@ def inputFile(firstTime=False, delimiter=None):
     except:
         print('File Can\'t Be Opened')
 
+        # Reset these in case of a bad input file
         ROSTERPATH = None
         setSettings(None)
 
