@@ -4,36 +4,43 @@ Initialization of student and queue objects
 Author: Lucas Hyatt
 '''
 
+# Initialization of student class, used to populate the student queue (see below)
 class Student:
 	def __init__(self, fname, lname, uoID, email, phoneticSpelling, revealCode, numCalled, numFlags, dates):
-		self.fname = fname
-		self.lname = lname
-		self.uoID = uoID
-		self.email = email
+		self.fname = fname # first name of student
+		self.lname = lname # last name of student
+		self.uoID = uoID # student UO ID
+		self.email = email # student email
 		self.phonetic = phoneticSpelling
 		self.reveal = revealCode # Not entirely sure about this variable, just put it as boolean for now
 		self.numCalled = numCalled # Number of times a student is called throughout the term
-		self.flag = 0
-		self.numFlags = numFlags
+		self.flag = 0 #Indicates if student has been called
+		self.numFlags = numFlags # Number of times student has been flagged
 		self.dates = dates # List of dates when the student answered a question
 
+	#Helper function for printing a student (fname, lname, ID)
 	def printStudent(self):
 		print("Student:", self.fname, self.lname, "has ID:", self.uoID)
 
+	#Helper function for displaying name of student, used for exporting
 	def display(self): # Will be called by UI, returns the name of student (Req 4.3)
 		return self.fname + ' ' + self.lname
 
+	#Helper function for formatting the summary performance information regarding a student
 	def summaryPerformance(self): # Returns formatted string (Req. 3.D.3)
 		# <total times called> <number of flags> <first name> <last name> <UO ID> <email address> <phonetic spelling> <reveal code><list of dates>
 		return str(self.numCalled) + '\t' + str(self.flag) + '\t' + self.fname + '\t' + self.lname + '\t' + str(self.uoID) + '\t' + self.email + '\t' + self.phonetic + '\t' + str(self.reveal) + '\t' + str(self.dates) +"\n"
 
+	#Helper function for printing
 	def review(self): # Called by output file function feedback() (Req. 3.B.3)
 		# <response_code> <tab> <first name> <last name> “<” <email address> “>” 
 		return str(self.reveal) + '\t' + self.fname + ' ' + self.lname + ' <' + self.email + '>'
 
+	#Getting for flag of a student
 	def getFlag(self): #Helper to view the flag of a student
 		return self.flag
 
+	#Setter for flag of a student
 	def setFlag(self, flag): #Helper to set the flag of a student
 		self.flag = flag
 
@@ -66,12 +73,13 @@ Line consists of:
 <first_name> <tab> <last_name> <tab> <UO ID> <tab> <email_address> <tab> <phonetic_spelling> <tab> <reveal_code> <LF>
 '''
 
+# Initialization of queue class, used to represent roster of students from input file.
 class classQueue: 
-	def __init__(self):
+	def __init__(self): #Class includes the queue itself and the length of the queue
 		self.queue = []
 		self.length = 0
 
-	def enqueue(self, new_student): #Enqueues new_student
+	def enqueue(self, new_student): #Function to enqueue a new_student
 		self.queue.append(new_student)
 		self.length += 1
 
@@ -103,6 +111,7 @@ class classQueue:
 		self.length += len(new_list)
 		self.queue += new_list
 
+	# Helper function for printing the contents of a queue
 	def printQ(self):
 		if len(self.queue) == 0:
 			print("Nothing to print, queue is empty...")
@@ -113,6 +122,7 @@ class classQueue:
 				self.queue[i].printStudent()
 
 
+# ========================== Below is all testing ==========================
 
 # print('Testing for queue object: \n')
 # studentQ = classQueue()

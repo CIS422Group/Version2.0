@@ -131,6 +131,8 @@ class GUI:
         names, highlightBegin, highlightEnd = OnDeckString(self.current_Index, self.onDeck)
         # print(names, highlightBegin, highlightEnd)
         self.update(names, highlightBegin, highlightEnd)
+        overwriteRosterFile(self.path, self.Roster)
+
 
     def downKey(self, event):
         # print("Down key pressed")
