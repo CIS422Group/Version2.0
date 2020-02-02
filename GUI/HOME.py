@@ -25,26 +25,28 @@ from objects import Student, classQueue
 #     GUI.testcontrol()
 
 STUDENTQUEUE = classQueue()
-ROSTERPATH = "" # This is the global roster path, set by inputFile. Might want to change it later
+ROSTERPATH = "" # global roster path, set by inputFile
 
 def switch_view():
     if not GUI.userViewOpen():  # prevent 2 user view windows from opening simultaneously
         GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
 
-def inputFile(delimiter = None):
+def inputFile(firstTime=False, delimiter=None):
     global ROSTERPATH
 
-    filepath = filedialog.askopenfilename(initialdir="./..", title="Select File")
-    if filepath == '':
-        return
+    if not ROSTERPATH and not firstTime:
+        filepath = filedialog.askopenfilename(initialdir="./..", title="Select File")
+        if filepath == '':
+            return
+        ROSTERPATH = filepath
+        setSettings(filepath)
 
-    if filepath[-4:] != '.txt':
+    if ROSTERPATH[-4:] != '.txt' or ".txt" not in ROSTERPATH:
+        print('File must be a text file')
         GUI.displayError('file type error', 'Unable to open file', 'File must be a text file')
 
-    ROSTERPATH = filepath
-
     try:
-        with open(filepath, "r") as f:
+        with open(ROSTERPATH, "r") as f:
             next(f)     # skip first line of roster file (comments)
             for i, line in enumerate(f):
 
@@ -192,6 +194,45 @@ def writeLogFile():
         GUI.displayError(title, heading, msg)
         return
 
+def getSettings():
+    global ROSTERPATH
+    config = "../config.txt"
+
+    try:
+        with open(config, "r") as f:
+            path = next(f)
+            if os.path.isfile(path):
+                ROSTERPATH = path
+                return 1
+    except:
+        # We don't need a popup here, this should happen in the background
+        print("Unable to read settings from config.txt")
+
+def setSettings(path):
+    config = "../config.txt"
+    try:
+        with open(config, "w") as f:
+            f.write(path)
+
+    except FileNotFoundError:
+        print('File Can\'t Be Opened')
+
+        # display error box
+        title = 'File Can\'t Be Opened'
+        heading = 'Unable to open file'
+        msg = 'File Can\'t Be Opened'
+        GUI.displayError(title, heading, msg)
+        return
+    except:
+        print('File Can\'t Be Opened')
+
+        # display error box
+        title = 'File Can\'t Be Opened'
+        heading = 'Unable to open file'
+        msg = 'File Can\'t Be Opened'
+        GUI.displayError(title, heading, msg)
+        return
+
 def exports():
     writeSummaryPerformanceFile()
     writeLogFile()
@@ -210,6 +251,14 @@ def exitProgram():
     if errorWin is not None:
         errorWin.closeBox()
     root.destroy()
+
+
+# Attempt to read default roster path from config.txt (this will fail the first time the program is run)
+try:
+    if getSettings():
+        inputFile(firstTime=True)
+except:
+    pass
 
 '''======================================GUI=========================================='''
 
