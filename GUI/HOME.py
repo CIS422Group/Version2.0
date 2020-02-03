@@ -74,88 +74,83 @@ def inputFile(firstTime=False, delimiter=None):
         print('File must be a text file')
         GUI.displayError('file type error', 'Unable to open file', 'File must be a text file')
 
-    # try:
-    with open(ROSTERPATH, "r") as f:
-        next(f)     # skip first line of roster file (comments)
-        for i, line in enumerate(f):
+    try:
+        with open(ROSTERPATH, "r") as f:
+            next(f)     # skip first line of roster file (comments)
+            for i, line in enumerate(f):
 
-            elements = line.strip().split(delimiter)
+                elements = line.strip().split(delimiter)
 
-            print(elements)
+                print(elements)
 
-            try:
-                fname = str(elements[0])
-                lname = str(elements[1])
-                uoID = int(elements[2])
-                email = str(elements[3])
-                phonetic = str(elements[4])
-                reveal = 0
+                try:
+                    fname = str(elements[0])
+                    lname = str(elements[1])
+                    uoID = int(elements[2])
+                    email = str(elements[3])
+                    phonetic = str(elements[4])
+                    reveal = 0
 
-                if len(elements) >= 9:
+                    if len(elements) >= 9:
+                        
+                        numCalled = int(elements[6])
+                        numFlags = int(elements[7])
 
-                    print("HERRE")
-                    
-                    numCalled = int(elements[6])
-                    numFlags = int(elements[7])
-                    print("EL8: ")
-                    print(elements[8:])
-                    dates = list("".join(elements[8:]).replace("[", "").replace("]", "").split())
-                    print(dates)
+                        # Sort Dates Chronologically
+                        dates = list(" ".join(elements[8:]).replace("[", "").replace("]", "").split())
+                        dates = [datetime.strptime(date, "%d/%m/%y") for date in dates]
+                        dates.sort(key = lambda date: date)
+                        dates = [date.strftime("%d/%m/%y") for date in dates]
+                        # dates = '['  + ' '.join(dates) + ']'
+                        
+                    else:
+                        numCalled = 0
+                        numFlags = 0
+                        dates = []
 
-                    # Sort Dates Chronologically
-                    dates = [datetime.strptime(date, "%d/%m/%y") for date in dates]
-                    dates.sort(key = lambda date: date)
-                    dates = [date.strftime("%d/%m/%y") for date in dates]
-                    # dates = '['  + ' '.join(dates) + ']'
-                    
-                else:
-                    numCalled = 0
-                    numFlags = 0
-                    dates = []
+                    # Create Student object, Insert into Queue
+                    STUDENTQUEUE.enqueue(Student(fname, lname, uoID, email, phonetic, reveal, numCalled, numFlags, dates))
 
-                # Create Student object, Insert into Queue
-                STUDENTQUEUE.enqueue(Student(fname, lname, uoID, email, phonetic, reveal, numCalled, numFlags, dates))
+                except (ValueError, IndexError):
+                    print("Line {} of roster file is formatted incorrectly".format(i+1))
 
-            except (ValueError, IndexError):
-                print("Line {} of roster file is formatted incorrectly".format(i+1))
+                    # Reset these in case of a bad input file
+                    ROSTERPATH = None
+                    setSettings(None)
 
-                # Reset these in case of a bad input file
-                ROSTERPATH = None
-                setSettings(None)
+                    # display error box
+                    title = 'Value/Index Error'
+                    heading = 'Unable to open file'
+                    msg = 'Line {} is formatted incorrectly'.format(i+1)
+                    GUI.displayError(title, heading, msg)
+                    return
 
-                # display error box
-                title = 'Value/Index Error'
-                heading = 'Unable to open file'
-                msg = 'Line {} is formatted incorrectly'.format(i+1)
-                GUI.displayError(title, heading, msg)
-                return
+    except FileNotFoundError:
+        print('File Can\'t Be Opened')
 
-    # except FileNotFoundError:
-    #     print('File Can\'t Be Opened')
+        # Reset these in case of a bad input file
+        ROSTERPATH = None
+        setSettings(None)
 
-    #     # Reset these in case of a bad input file
-    #     ROSTERPATH = None
-    #     setSettings(None)
+        # display error box
+        title = 'File Can\'t Be Opened'
+        heading = 'Unable to open file'
+        msg = 'File Can\'t Be Opened'
+        GUI.displayError(title, heading, msg)
+        return
+    except:
+        print('File Can\'t Be Opened')
 
-    #     # display error box
-    #     title = 'File Can\'t Be Opened'
-    #     heading = 'Unable to open file'
-    #     msg = 'File Can\'t Be Opened'
-    #     GUI.displayError(title, heading, msg)
-    #     return
-    # except:
-    #     print('File Can\'t Be Opened')
+        # Reset these in case of a bad input file
+        ROSTERPATH = None
+        setSettings(None)
 
-    #     # Reset these in case of a bad input file
-    #     ROSTERPATH = None
-    #     setSettings(None)
-
-    #     # display error box
-    #     title = 'File Can\'t Be Opened'
-    #     heading = 'Unable to open file'
-    #     msg = 'File Can\'t Be Opened'
-    #     GUI.displayError(title, heading, msg)
-    #     return
+        # display error box
+        title = 'File Can\'t Be Opened'
+        heading = 'Unable to open file'
+        msg = 'File Can\'t Be Opened'
+        GUI.displayError(title, heading, msg)
+        return
 
     STUDENTQUEUE.printQ()    # FIXME: temporary
 
