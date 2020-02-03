@@ -418,6 +418,7 @@ exit_menu['font'] = button_font
 exit_menu.grid(row=6, column=0)
 
 # Main Loop
+root.update()
 root.attributes("-topmost", False)  # allow window to go behind other windows
 root.mainloop()
 exit()
