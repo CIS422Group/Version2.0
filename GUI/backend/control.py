@@ -1,6 +1,9 @@
 # from objects import Student, classQueue
 from backend.objects import Student, classQueue
 import random
+# https://www.programiz.com/python-programming/datetime/current-datetime
+from datetime import date
+
 
 # only first N% in the quene may be deck, N ->(30-50)
 N = 45
@@ -98,6 +101,7 @@ def up(cur_index, onDeck, Roster, flagQ):
     for sd in Roster.queue:
         if (sd.uoID == student.uoID):
             sd.numCalled += 1
+            sd.dates.append(date.today().strftime("%d/%m/%Y"))
             sd.numFlags += 1
             sd.reveal = 1
             flagQ.enqueue(sd)
@@ -113,11 +117,22 @@ def down(cur_index, onDeck, Roster):
     # remove one student that been picked
     student = onDeck.removeIndex(cur_index)
     # update the imformation for picked student 
+    isFind = 0
     for sd in Roster.queue:
         if (sd.uoID == student.uoID):
             sd.numCalled += 1
+            sd.dates.append(date.today().strftime("%d/%m/%Y"))
+            isFind = 1
             break;
     pickOneStudent(onDeck, Roster)
+
+    print("IsFind:", isFind==1, "!!!!!!!!!!!")
+
+    # print("IN control")
+    # for i in range(Roster.length):
+    #     print("Queue at index", i, "has", end = " ")
+    #     sd = Roster.queue[i]
+        # print(sd.fname, sd.numCalled, sd.numFlags, sd.dates)
     return 0
 
 def OnDeckString(cur_index, onDeck):

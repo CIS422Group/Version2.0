@@ -79,7 +79,7 @@ def overwriteRosterFile(roster, studentQueue, delimiter="    "):
         return
 
 class GUI:
-    def __init__(self, winTitle: str):
+    def __init__(self, winTitle: str, Roster):
         self.title = winTitle
         self.mainWindow = tk.Tk()
         global USER_VIEW_OPEN
@@ -97,7 +97,7 @@ class GUI:
         self.mainWindow.protocol("WM_DELETE_WINDOW", self.closeWindow)  # calls closeWindow() if user clicks red 'x'
 
         # for backend
-        self.Roster = initRoster()              # creat a golable Roster which is a quene of a Student object
+        self.Roster = Roster             # creat a golable Roster which is a quene of a Student object
         self.onDeck = initDeck(self.Roster)     # 4 student object on deck, current_Index will be the index 
         self.current_Index = 0                  # the picked student's index in onDeck queue
         self.flagQ = classQueue()               # a list of student been flag 
@@ -322,7 +322,9 @@ def testcontrol(path, studentQ):
 
     studentQ.printQ()
 
-    gui = GUI('Students on deck')
+    gui = GUI('Students on deck', studentQ)
+    print("Before Quene")
+    gui.Roster.printQ()
     gui.Roster = studentQ
     gui.path = path
     USER_VIEW_WINDOW = gui
