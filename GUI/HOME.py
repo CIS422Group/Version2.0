@@ -19,10 +19,7 @@ import os
 import GUI
 import sys
 from datetime import datetime
-
-# Needed for importing files a level up
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from objects import Student, classQueue
+from backend.objects import Student, classQueue
 
 
 '''======================================Functions=========================================='''
