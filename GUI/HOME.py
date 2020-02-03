@@ -227,9 +227,11 @@ def writeLogFile():
         with open(filepath, "w") as f:
             f.write(header)
 
+            now = datetime.now().strftime("%d/%m/%y")
             for student in STUDENTQUEUE.queue:
-                if student.reveal:
-                    line = "X    {} {} <{}>\n".format(student.fname, student.lname, student.email)
+                if now in student.dates:
+                    x = 'X' if student.reveal else ' '
+                    line = "{}    {} {} <{}>\n".format(x, student.fname, student.lname, student.email)
                     f.write(line)
 
     except FileNotFoundError:
