@@ -1,3 +1,20 @@
+'''
+algorithm for how to pick a fair and random queue.
+
+with in a reasonable size of class, greater or equal 5, this algorithm will guarantee
+    * random: you can't predict who will be next
+    * fair: the different of the chance been called between each student is less than 0.01
+    * cool down time: student will not been called continuously. The bigger size for ROster, the longer cool down time there will be
+
+To test or run only this file:
+    1. comment out line 19 (from backend.objects import Student, classQueue)
+    2. uncommen line 18 (# from objects import Student, classQueue)
+    3. python3 control.py
+
+Author: Yin Jin 
+'''
+
+
 # from objects import Student, classQueue
 from backend.objects import Student, classQueue
 import random
@@ -126,7 +143,7 @@ def down(cur_index, onDeck, Roster):
             break;
     pickOneStudent(onDeck, Roster)
 
-    print("IsFind:", isFind==1, "!!!!!!!!!!!")
+    # print("IsFind:", isFind==1, "!!!!!!!!!!!")
 
     # print("IN control")
     # for i in range(Roster.length):

@@ -30,7 +30,7 @@ def overwriteRosterFile(roster, studentQueue, delimiter="    "):
     # roster: file name
     # studentQueue: quene
 
-    print("Checking!!!!!!!!!")
+    # print("Checking!!!!!!!!!")
 
     # TEMP tests
     s1 = studentQueue.dequeue()
@@ -355,25 +355,25 @@ def testScreenUpdate():
 def testcontrol(path, studentQ):
     global USER_VIEW_WINDOW
 
-    print('--- Starting control test ---')
+    # print('--- Starting control test ---')
 
     # print(type(path))
 
     studentQ.printQ()
 
     gui = GUI('Students on deck', studentQ)
-    print("Before Quene")
-    gui.Roster.printQ()
+    # print("Before Quene")
+    # gui.Roster.printQ()
     gui.Roster = studentQ
     gui.path = path
     USER_VIEW_WINDOW = gui
 
-    print("self.Roster: ")
-    gui.Roster.printQ()
+    # print("self.Roster: ")
+    # gui.Roster.printQ()
 
 
     names, highlightBegin, highlightEnd = OnDeckString(gui.current_Index, gui.onDeck)
-    print(names)
+    # print(names)
 
     gui.update(names, highlightBegin, highlightEnd)
 
