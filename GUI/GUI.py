@@ -12,6 +12,7 @@ Last Modified: 1/28/20
 import tkinter as tk
 import time
 import os
+import threading
 
 from backend.objects import Student, classQueue
 from backend.control import *
@@ -19,9 +20,10 @@ from backend.control import *
 # from HOME import overwriteRosterFile
 
 USER_VIEW_OPEN = 0
-ERROR_OPEN = 0
+#ERROR_OPEN = 0
 USER_VIEW_WINDOW = None  # to pass user view window to HOME.py
-ERROR_WINDOW = None
+#ERROR_WINDOW = None
+
 
 def overwriteRosterFile(roster, studentQueue, delimiter="    "):
     # global ROSTERPATH
@@ -159,7 +161,6 @@ class GUI:
         self.text.configure(state='disabled')  # prevents user from clicking and editing the text
         self.mainWindow.update()
 
-
 class _MessageBox:
     def __init__(self, title: str, heading: str, msg: str):
         self.title = title
@@ -167,24 +168,59 @@ class _MessageBox:
         self.msg = msg
         self.canvasWidth = 450
         self.canvasHeight = 170
-        self.root = tk.Tk()
+        #self.root = tk.Tk()
 
-        self.root.protocol("WM_DELETE_WINDOW", self.closeBox)  # calls closeBox() if user clicks red 'x'
+        #self.root.protocol("WM_DELETE_WINDOW", self.closeBox)  # calls closeBox() if user clicks red 'x'
         self.iconFile = None
 
     def closeBox(self):
-        self.root.destroy()
-        global ERROR_OPEN
-        global ERROR_WINDOW
+        pass
+        #self.root.destroy()
+        #global ERROR_OPEN
+        #global ERROR_WINDOW
 
-        ERROR_OPEN = 0
-        ERROR_WINDOW = None
+        #ERROR_OPEN = 0
+        #ERROR_WINDOW = None
 
     def display(self):
+        os.system("""osascript -e 'display notification "{}" with title "{}"'""".format(self.heading, self.title))
+        '''
+        self.root.withdraw()
+        top = tk.Toplevel()
 
-        if self.iconFile is None:
-            raise NotImplementedError("cannot use _MessageBox to create a message. Use a child class instead.")
+        top.overrideredirect(True)
+        width = self.root.winfo_screenwidth()
 
+        canvas = tk.Canvas(top, height=70, width=350, bg='#D3D3D3', highlightthickness=0)
+        image = tk.PhotoImage(master=canvas, file=self.iconFile)  # file MUST be .gif
+        canvas.create_image(40, 35, image=image)
+
+        # print error message
+        # (pixels to right from left edge, pixels down, ...)
+        canvas.create_text(80, 17, text=self.heading, anchor='w', font=('Calibri', 14, 'bold'))
+        canvas.create_text(80, 30, text=self.msg, anchor='nw', font=('Calibri', 12))
+
+        # canvas.create_text(20, 10, text='This is a notification', anchor='nw', font=('Calibri', 14))
+        canvas.pack()
+
+        height = 40
+
+        # center the window on the screen
+        for i in range(19):
+            top.geometry("+{}+{}".format(width - (20 * i), height))
+            top.update()
+            # sleep(0.0001)
+
+        time.sleep(4)
+
+        for i in range(19):
+            top.geometry("+{}+{}".format(width - 360 + (20 * i), height))
+            top.update()
+
+        top.destroy()
+        self.root.destroy()
+        '''
+        '''
         self.root.title(self.title)
         canvas = tk.Canvas(self.root, height=self.canvasHeight, width=self.canvasWidth,
                            bg='#D3D3D3', highlightthickness=0)
@@ -213,6 +249,7 @@ class _MessageBox:
 
         canvas.pack()
         self.root.mainloop()
+        '''
 
 class ErrorBox(_MessageBox):
     def __init__(self, title: str, heading: str, msg: str):
@@ -225,14 +262,14 @@ class WarningBox(_MessageBox):
         self.iconFile = os.path.abspath(__file__)[:-6] + 'warning_icon.gif'
 
 def displayError(title: str, heading: str, msg: str):
-    global ERROR_OPEN
-    global ERROR_WINDOW
+    #global ERROR_OPEN
+    #global ERROR_WINDOW
 
-    if ERROR_OPEN == 1:
-        return
-    ERROR_OPEN = 1
-    ERROR_WINDOW = ErrorBox(title, heading, msg)
-    ERROR_WINDOW.display()
+    #if ERROR_OPEN == 1:
+    #    return
+    #ERROR_OPEN = 1
+    #ERROR_WINDOW = ErrorBox(title, heading, msg)
+    ErrorBox(title, heading, msg).display()
 
 def displayWarning(title: str, heading: str, msg: str):
     WarningBox(title, heading, msg).display()
@@ -244,7 +281,8 @@ def getUserViewWindow():
     return USER_VIEW_WINDOW
 
 def getErrorWindow():
-    return ERROR_WINDOW
+    #return ERROR_WINDOW
+    pass
 
 def testArrowKeys():
     """ Opens the GUI with 4 names, and the window remains unchanged.
@@ -353,9 +391,10 @@ def testcontrol(path, studentQ):
 
 
 def main():
+    pass
     #testArrowKeys()
     # testScreenUpdate()
-    testcontrol()
+    #testcontrol()
     
     #displayError("Error test", "Error", "this is a test")
     #displayWarning("Warning test", "Warning", "this is a test")

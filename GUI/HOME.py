@@ -339,11 +339,11 @@ def openSummary(): # Opens the summary log file
 
 def exitProgram():
     window = GUI.getUserViewWindow()  # USER_VIEW_WINDOW global var must be set right after creating window
-    errorWin = GUI.getErrorWindow()
+    #errorWin = GUI.getErrorWindow()
     if window is not None:
         window.closeWindow()
-    if errorWin is not None:
-        errorWin.closeBox()
+    #if errorWin is not None:
+    #    errorWin.closeBox()
     root.destroy()
 
 
