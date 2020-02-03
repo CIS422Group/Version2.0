@@ -29,7 +29,7 @@ class Student:
 	#Helper function for formatting the summary performance information regarding a student
 	def summaryPerformance(self): # Returns formatted string (Req. 3.D.3)
 		# <total times called> <number of flags> <first name> <last name> <UO ID> <email address> <phonetic spelling> <reveal code><list of dates>
-		return str(self.numCalled) + '\t' + str(self.flag) + '\t' + self.fname + '\t' + self.lname + '\t' + str(self.uoID) + '\t' + self.email + '\t' + self.phonetic + '\t' + str(self.reveal) + '\t' + str(self.dates) +"\n"
+		return str(self.numCalled) + '\t' + str(self.numFlags) + '\t' + self.fname + '\t' + self.lname + '\t' + str(self.uoID) + '\t' + self.email + '\t' + self.phonetic + '\t' + str(self.reveal) + '\t' + str(self.dates) +"\n"
 
 	#Helper function for printing
 	def review(self): # Called by output file function feedback() (Req. 3.B.3)
