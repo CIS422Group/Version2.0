@@ -101,7 +101,7 @@ def up(cur_index, onDeck, Roster, flagQ):
     for sd in Roster.queue:
         if (sd.uoID == student.uoID):
             sd.numCalled += 1
-            sd.dates.append(date.today().strftime("%d/%m/%Y"))
+            sd.dates.append(date.today().strftime("%d/%m/%y"))
             sd.numFlags += 1
             sd.reveal = 1
             flagQ.enqueue(sd)
@@ -121,7 +121,7 @@ def down(cur_index, onDeck, Roster):
     for sd in Roster.queue:
         if (sd.uoID == student.uoID):
             sd.numCalled += 1
-            sd.dates.append(date.today().strftime("%d/%m/%Y"))
+            sd.dates.append(date.today().strftime("%d/%m/%y"))
             isFind = 1
             break;
     pickOneStudent(onDeck, Roster)

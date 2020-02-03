@@ -58,7 +58,8 @@ def overwriteRosterFile(roster, studentQueue, delimiter="    "):
             
             d = delimiter
             for student in studentQueue.queue:
-                line = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(student.fname, d, student.lname, d, student.uoID, d,student.email, d, student.phonetic, d, student.reveal, d, student.numCalled, d, student.numFlags, d, student.dates)
+                dates = '['  + ' '.join(student.dates) + ']'
+                line = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(student.fname, d, student.lname, d, student.uoID, d,student.email, d, student.phonetic, d, student.reveal, d, student.numCalled, d, student.numFlags, d, dates)
                 f.write(line)
 
     except FileNotFoundError:
