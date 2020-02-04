@@ -25,7 +25,7 @@ class Student:
 
 	def summaryPerformance(self): # Returns formatted string (Req. 3.D.3)
 		# <total times called> <number of flags> <first name> <last name> <UO ID> <email address> <phonetic spelling> <reveal code><list of dates>
-		return str(self.numCalled) + '\t' + str(self.numFlags) + '\t' + self.fname + '\t' + self.lname + '\t' + str(self.uoID) + '\t' + self.email + '\t' + self.phonetic + '\t' + str(self.reveal) + '\t' + str(self.dates)
+		return str(self.numCalled) + '\t' + str(self.numFlags) + '\t' + self.fname + '\t' + self.lname + '\t' + str(self.uoID) + '\t' + self.email + '\t' + self.phonetic + '\t' + str(self.reveal) + '\t' + str(self.dates) + '\n'
 
 	def review(self): # Called by output file function feedback() (Req. 3.B.3)
 		# <response_code> <tab> <first name> <last name> “<” <email address> “>” 

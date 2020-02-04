@@ -7,6 +7,9 @@ Last Modified: 2/3/20
 Author: Yin Jin
 Last Modified: 1/28/20
 
+Author: Noah Tigner
+Last Modified: 02/03/20
+
 """
 
 import tkinter as tk
@@ -23,17 +26,16 @@ USER_VIEW_OPEN = 0
 USER_VIEW_WINDOW = None  # to pass user view window to HOME.py
 
 def overwriteRosterFile(roster, studentQueue, delimiter="    "):
-    # global ROSTERPATH
-    # roster: file name
-    # studentQueue: quene
+    ''' 
+    This method overwrites the data held in the roster file. 
+    The first line of the file is preserved, while the subsequent lines are replaced by the data held in the queue. 
+    This method is called by both the up and down arrow keys, and is used to preserve data between sessions. 
 
-    # print("Checking!!!!!!!!!")
+    Args: roster, studentQueue, delimiter
 
-    # TEMP tests
-    s1 = studentQueue.dequeue()
-    s2 = studentQueue.dequeue()
-    studentQueue.enqueue(s1)
-    studentQueue.enqueue(s2)
+    Returns:
+    '''
+
 
     if len(studentQueue.queue) == 0:
         print("No data to log")
