@@ -159,7 +159,7 @@ class GUI:
         self.text.configure(state='disabled')  # prevents user from clicking and editing the text
         self.mainWindow.update()
 
-def displayError(title: str, msg: str):
+def displayMessage(title: str, msg: str):
     os.system("""osascript -e 'display notification "{}" with title "{}"' """.format(msg, title))
 
 def userViewOpen():
@@ -265,10 +265,6 @@ def testcontrol(path, studentQ):
     gui.mainWindow.bind("<Right>", gui.rightKey)
     gui.mainWindow.bind("<Up>", gui.upKey)
     gui.mainWindow.bind("<Down>", gui.downKey)
-
-    print("\033[38;5;220mClick on the cold call window. After pressing an arrow key,",
-          "\na message should be displayed. Close the cold call window to end the program.",
-          "\nNote: the names and highlighting should not update for this test.\033[0m")
 
     gui.mainWindow.mainloop()
 

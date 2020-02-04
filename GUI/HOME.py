@@ -35,12 +35,16 @@ def switch_view():
             messageBox = tk.messagebox.askokcancel('Load class roster', 'Please select a class roster', icon='info')
             if messageBox:
                 inputFile()
+            else:
+                return
             if ROSTERPATH != '' and ROSTERPATH is not None:
                 GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
+            elif ROSTERPATH == '':
+                return
             else:
                 heading = 'Unable to open file'
                 msg = 'Could not open the roster file'
-                GUI.displayError(heading, msg)
+                GUI.displayMessage(heading, msg)
 
 def inputFile(firstTime=False, delimiter=None):
     ''' 
@@ -75,7 +79,7 @@ def inputFile(firstTime=False, delimiter=None):
 
     if ROSTERPATH[-4:] != '.txt' or ".txt" not in ROSTERPATH:
         print('File must be a text file')
-        GUI.displayError('Unable to open file', 'File must be a text file')
+        GUI.displayMessage('Unable to open file', 'File must be a text file')
 
     try:
         with open(ROSTERPATH, "r") as f:
@@ -124,7 +128,7 @@ def inputFile(firstTime=False, delimiter=None):
                     # display error box
                     heading = 'Unable to open file'
                     msg = 'Line {} is formatted incorrectly'.format(i+1)
-                    GUI.displayError(heading, msg)
+                    GUI.displayMessage(heading, msg)
                     return
 
     except FileNotFoundError:
@@ -137,7 +141,7 @@ def inputFile(firstTime=False, delimiter=None):
         # display error box
         heading = 'Unable to open file'
         msg = "File Cannot Be Opened"
-        GUI.displayError(heading, msg)
+        GUI.displayMessage(heading, msg)
         return
     except:
         print('File Can\'t Be Opened')
@@ -149,7 +153,7 @@ def inputFile(firstTime=False, delimiter=None):
         # display error box
         heading = 'Unable to open file'
         msg = "File Cannot Be Opened"
-        GUI.displayError(heading, msg)
+        GUI.displayMessage(heading, msg)
         return
 
     # STUDENTQUEUE.printQ()
@@ -178,22 +182,24 @@ def writeSummaryPerformanceFile():
                 line = student.summaryPerformance()
                 f.write(line)
 
+        return 1
+
     except FileNotFoundError:
         print('File Can\'t Be Opened')
 
         # display error box
         heading = 'Unable to open file'
         msg = "File Cannot Be Opened"
-        GUI.displayError(heading, msg)
-        return
+        GUI.displayMessage(heading, msg)
+        return 0
     except:
         print('File Can\'t Be Opened')
 
         # display error box
         heading = 'Unable to open file'
         msg = "File Cannot Be Opened"
-        GUI.displayError(heading, msg)
-        return
+        GUI.displayMessage(heading, msg)
+        return 0
 
 def writeLogFile():
     ''' 
@@ -213,8 +219,8 @@ def writeLogFile():
         # display error box
         title = 'No Data'
         heading = 'No data to log'
-        GUI.displayError(title, heading)
-        return
+        GUI.displayMessage(title, heading)
+        return 0
 
     filepath = "../dailyLogFile.txt"
     date = datetime.now().strftime("%d/%m/%y %H:%M")
@@ -231,22 +237,24 @@ def writeLogFile():
                     line = "{}    {} {} <{}>\n".format(x, student.fname, student.lname, student.email)
                     f.write(line)
 
+        return 1
+
     except FileNotFoundError:
         print('File Can\'t Be Opened')
 
         # display error box
         heading = 'Unable to open file'
         msg = "File Cannot Be Opened"
-        GUI.displayError(heading, msg)
-        return
+        GUI.displayMessage(heading, msg)
+        return 0
     except:
         print('File Can\'t Be Opened')
 
         # display error box
         heading = 'Unable to open file'
         msg = "File Cannot Be Opened"
-        GUI.displayError(heading, msg)
-        return
+        GUI.displayMessage(heading, msg)
+        return 0
 
 def getSettings():
     ''' 
@@ -293,7 +301,7 @@ def setSettings(path):
         # display error box
         heading = 'Unable to open file'
         msg = "File Cannot Be Opened"
-        GUI.displayError(heading, msg)
+        GUI.displayMessage(heading, msg)
         return
     except:
         print('File Can\'t Be Opened')
@@ -301,7 +309,7 @@ def setSettings(path):
         # display error box
         heading = 'Unable to open file'
         msg = "File Cannot Be Opened"
-        GUI.displayError(heading, msg)
+        GUI.displayMessage(heading, msg)
         return
 
 def exports():
@@ -313,22 +321,25 @@ def exports():
 
     Returns: 
     '''
-    writeSummaryPerformanceFile()
-    writeLogFile()
+    summarySuccess = writeSummaryPerformanceFile()
+    dailySuccess = writeLogFile()
+
+    if summarySuccess and dailySuccess:
+        GUI.displayMessage('Done exporting log files', '')
 
 def openDaily(): # Opens the daily log file
     val = os.system("open ./../dailyLogFile.txt")
     if val == 256:
         heading = 'Unable to open Daily Log File'
         msg = 'Please press Export to Logs to generate the file'
-        GUI.displayError(heading, msg)
+        GUI.displayMessage(heading, msg)
 
 def openSummary(): # Opens the summary log file
     val = os.system("open ./../SummaryPerformanceFile.txt")
     if val == 256:
         heading = 'Unable to open Performance File'
         msg = 'Please press Export to Logs to generate the file'
-        GUI.displayError(heading, msg)
+        GUI.displayMessage(heading, msg)
 
 def exitProgram():
     window = GUI.getUserViewWindow()  # USER_VIEW_WINDOW global var must be set right after creating window
