@@ -23,17 +23,6 @@ USER_VIEW_OPEN = 0
 USER_VIEW_WINDOW = None  # to pass user view window to HOME.py
 
 def overwriteRosterFile(roster, studentQueue, delimiter="    "):
-    # global ROSTERPATH
-    # roster: file name
-    # studentQueue: quene
-
-    # print("Checking!!!!!!!!!")
-
-    # TEMP tests
-    s1 = studentQueue.dequeue()
-    s2 = studentQueue.dequeue()
-    studentQueue.enqueue(s1)
-    studentQueue.enqueue(s2)
 
     if len(studentQueue.queue) == 0:
         print("No data to log")
