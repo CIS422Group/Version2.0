@@ -66,8 +66,7 @@ def inputFile(firstTime=False, delimiter=None):
 
     if not ROSTERPATH or not firstTime:
 
-        print(firstTime)
-        if len(STUDENTQUEUE.queue) > 0:\
+        if len(STUDENTQUEUE.queue) > 0:
             # Warn the user before overwriting STUDENTQUEUE
             messageBox = tk.messagebox.askquestion('Load New Data', 'Are you sure you want to load in a new file?', icon = 'warning')
             if messageBox == 'no':
@@ -100,7 +99,7 @@ def inputFile(firstTime=False, delimiter=None):
 
                 elements = line.strip().split(delimiter)
 
-                print(elements)
+                # print(elements)
 
                 try:
                     fname = str(elements[0])
