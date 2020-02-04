@@ -2,7 +2,7 @@
 The main GIU window for selecting students V1.O
 
 Author: Jimmy Lam
-Last Modified: 1/30/20
+Last Modified: 2/3/20
 
 Author: Yin Jin
 Last Modified: 1/28/20

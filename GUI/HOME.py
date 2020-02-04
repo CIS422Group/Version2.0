@@ -29,12 +29,18 @@ ROSTERPATH = "" # global roster path, set by inputFile
 
 def switch_view():
     if not GUI.userViewOpen():  # prevent 2 user view windows from opening simultaneously
-        if ROSTERPATH != '':
+        if ROSTERPATH != '' and ROSTERPATH is not None:
             GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
         else:
             messageBox = tk.messagebox.askokcancel('Load class roster', 'Please select a class roster', icon='info')
             if messageBox:
                 inputFile()
+            if ROSTERPATH != '' and ROSTERPATH is not None:
+                GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
+            else:
+                heading = 'Unable to open file'
+                msg = 'Could not open the roster file'
+                GUI.displayError(heading, msg)
 
 def inputFile(firstTime=False, delimiter=None):
     ''' 
