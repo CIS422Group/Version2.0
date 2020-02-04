@@ -28,6 +28,11 @@ STUDENTQUEUE = classQueue()
 ROSTERPATH = "" # global roster path, set by inputFile
 
 def switch_view():
+    global ROSTERPATH
+
+    if ROSTERPATH is not None and 'config.txt' in ROSTERPATH:
+        ROSTERPATH = ''
+
     if not GUI.userViewOpen():  # prevent 2 user view windows from opening simultaneously
         if ROSTERPATH != '' and ROSTERPATH is not None:
             GUI.testcontrol(ROSTERPATH, STUDENTQUEUE)
@@ -71,6 +76,13 @@ def inputFile(firstTime=False, delimiter=None):
         # Prompt the user to select a txt file
         filepath = filedialog.askopenfilename(initialdir="./..", title="Select File")
         if filepath == '':
+            return
+
+        if 'config.txt' in filepath:
+            print("can't open configuration file as a roster")
+            GUI.displayMessage('Not a roster file', 'config.txt is not a valid roster')
+            ROSTERPATH = None
+            setSettings(None)
             return
 
         ROSTERPATH = filepath
