@@ -20,10 +20,7 @@ from backend.control import *
 # from HOME import overwriteRosterFile
 
 USER_VIEW_OPEN = 0
-#ERROR_OPEN = 0
 USER_VIEW_WINDOW = None  # to pass user view window to HOME.py
-#ERROR_WINDOW = None
-
 
 def overwriteRosterFile(roster, studentQueue, delimiter="    "):
     # global ROSTERPATH
@@ -162,128 +159,14 @@ class GUI:
         self.text.configure(state='disabled')  # prevents user from clicking and editing the text
         self.mainWindow.update()
 
-class _MessageBox:
-    def __init__(self, title: str, heading: str, msg: str):
-        self.title = title
-        self.heading = heading
-        self.msg = msg
-        self.canvasWidth = 450
-        self.canvasHeight = 170
-        #self.root = tk.Tk()
-
-        #self.root.protocol("WM_DELETE_WINDOW", self.closeBox)  # calls closeBox() if user clicks red 'x'
-        self.iconFile = None
-
-    def closeBox(self):
-        pass
-        #self.root.destroy()
-        #global ERROR_OPEN
-        #global ERROR_WINDOW
-
-        #ERROR_OPEN = 0
-        #ERROR_WINDOW = None
-
-    def display(self):
-        os.system("""osascript -e 'display notification "{}" with title "{}"'""".format(self.heading, self.title))
-        '''
-        self.root.withdraw()
-        top = tk.Toplevel()
-
-        top.overrideredirect(True)
-        width = self.root.winfo_screenwidth()
-
-        canvas = tk.Canvas(top, height=70, width=350, bg='#D3D3D3', highlightthickness=0)
-        image = tk.PhotoImage(master=canvas, file=self.iconFile)  # file MUST be .gif
-        canvas.create_image(40, 35, image=image)
-
-        # print error message
-        # (pixels to right from left edge, pixels down, ...)
-        canvas.create_text(80, 17, text=self.heading, anchor='w', font=('Calibri', 14, 'bold'))
-        canvas.create_text(80, 30, text=self.msg, anchor='nw', font=('Calibri', 12))
-
-        # canvas.create_text(20, 10, text='This is a notification', anchor='nw', font=('Calibri', 14))
-        canvas.pack()
-
-        height = 40
-
-        # center the window on the screen
-        for i in range(19):
-            top.geometry("+{}+{}".format(width - (20 * i), height))
-            top.update()
-            # sleep(0.0001)
-
-        time.sleep(4)
-
-        for i in range(19):
-            top.geometry("+{}+{}".format(width - 360 + (20 * i), height))
-            top.update()
-
-        top.destroy()
-        self.root.destroy()
-        '''
-        '''
-        self.root.title(self.title)
-        canvas = tk.Canvas(self.root, height=self.canvasHeight, width=self.canvasWidth,
-                           bg='#D3D3D3', highlightthickness=0)
-
-        # center the window on the screen
-        width = self.root.winfo_screenwidth()  # width of mac screen (pixels)
-        height = self.root.winfo_screenheight()  # height of mac screen (pixels)
-        x = (width // 2) - (self.canvasWidth // 2)
-        y = (height // 2) - (self.canvasHeight // 2)
-        self.root.geometry("{}x{}+{}+{}".format(self.canvasWidth, self.canvasHeight, x, y))
-
-        # force the window to be in front of all other windows
-        self.root.attributes("-topmost", True)
-
-        image = tk.PhotoImage(master=canvas, file=self.iconFile)  # file MUST be .gif
-        canvas.create_image(60, 50, image=image)
-
-        # print error message
-        # (pixels to right from left edge, pixels down, ...)
-        canvas.create_text(120, 30, text=self.heading, anchor='w', font=('Calibri', 20, 'bold'))
-        canvas.create_text(120, 50, text=self.msg, anchor='nw', font=('Calibri', 16))
-
-        ok = tk.Button(canvas, text="OK", width=10, height=2, highlightbackground='#D3D3D3', command=self.closeBox)
-        ok.place(x=175, y=100)
-        # ok.configure(foreground='blue')
-
-        canvas.pack()
-        self.root.mainloop()
-        '''
-
-class ErrorBox(_MessageBox):
-    def __init__(self, title: str, heading: str, msg: str):
-        super().__init__(title, heading, msg)
-        self.iconFile = os.path.abspath(__file__)[:-6] + 'error_icon.gif'
-
-class WarningBox(_MessageBox):
-    def __init__(self, title: str, heading: str, msg: str):
-        super().__init__(title, heading, msg)
-        self.iconFile = os.path.abspath(__file__)[:-6] + 'warning_icon.gif'
-
-def displayError(title: str, heading: str, msg: str):
-    #global ERROR_OPEN
-    #global ERROR_WINDOW
-
-    #if ERROR_OPEN == 1:
-    #    return
-    #ERROR_OPEN = 1
-    #ERROR_WINDOW = ErrorBox(title, heading, msg)
-    ErrorBox(title, heading, msg).display()
-
-def displayWarning(title: str, heading: str, msg: str):
-    WarningBox(title, heading, msg).display()
+def displayError(title: str, msg: str):
+    os.system("""osascript -e 'display notification "{}" with title "{}"' """.format(msg, title))
 
 def userViewOpen():
     return USER_VIEW_OPEN
 
 def getUserViewWindow():
     return USER_VIEW_WINDOW
-
-def getErrorWindow():
-    #return ERROR_WINDOW
-    pass
 
 def testArrowKeys():
     """ Opens the GUI with 4 names, and the window remains unchanged.
@@ -389,19 +272,11 @@ def testcontrol(path, studentQ):
 
     gui.mainWindow.mainloop()
 
-
-
 def main():
     pass
     #testArrowKeys()
-    # testScreenUpdate()
+    #testScreenUpdate()
     #testcontrol()
-    
-    #displayError("Error test", "Error", "this is a test")
-    #displayWarning("Warning test", "Warning", "this is a test")
-
-if __name__ == '__main__':
-    main()
 
 """
 Sources:
