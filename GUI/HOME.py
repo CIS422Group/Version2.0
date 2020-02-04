@@ -3,7 +3,7 @@ Author: Lucas Hyatt
 Last Modified: 1/30/20
 
 Author: Noah Tigner
-Last Modified: 2/01/20
+Last Modified: 2/03/20
 
 Author: Jimmy Lam
 Last Modified: 2/2/20
@@ -146,7 +146,7 @@ def inputFile(firstTime=False, delimiter=None):
         GUI.displayError(heading, msg)
         return
 
-    STUDENTQUEUE.printQ()    # FIXME: temporary
+    # STUDENTQUEUE.printQ()
 
 def writeSummaryPerformanceFile():
     ''' 
