@@ -2,7 +2,7 @@
 The main GIU window for selecting students V1.O
 
 Author: Jimmy Lam
-Last Modified: 1/30/20
+Last Modified: 2/3/20
 
 Author: Yin Jin
 Last Modified: 1/28/20
@@ -11,6 +11,8 @@ Last Modified: 1/28/20
 
 import tkinter as tk
 import time
+import os
+import threading
 
 from backend.objects import Student, classQueue
 from backend.control import *
@@ -18,14 +20,14 @@ from backend.control import *
 # from HOME import overwriteRosterFile
 
 USER_VIEW_OPEN = 0
-USER_VIEW_WINDOW = None
+USER_VIEW_WINDOW = None  # to pass user view window to HOME.py
 
 def overwriteRosterFile(roster, studentQueue, delimiter="    "):
     # global ROSTERPATH
     # roster: file name
     # studentQueue: quene
 
-    print("Checking!!!!!!!!!")
+    # print("Checking!!!!!!!!!")
 
     # TEMP tests
     s1 = studentQueue.dequeue()
@@ -53,7 +55,8 @@ def overwriteRosterFile(roster, studentQueue, delimiter="    "):
             
             d = delimiter
             for student in studentQueue.queue:
-                line = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(student.fname, d, student.lname, d, student.uoID, d,student.email, d, student.phonetic, d, student.reveal, d, student.numCalled, d, student.numFlags, d, student.dates)
+                dates = '['  + ' '.join(student.dates) + ']'
+                line = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(student.fname, d, student.lname, d, student.uoID, d,student.email, d, student.phonetic, d, student.reveal, d, student.numCalled, d, student.numFlags, d, dates)
                 f.write(line)
 
     except FileNotFoundError:
@@ -76,7 +79,7 @@ def overwriteRosterFile(roster, studentQueue, delimiter="    "):
         return
 
 class GUI:
-    def __init__(self, winTitle: str):
+    def __init__(self, winTitle: str, Roster):
         self.title = winTitle
         self.mainWindow = tk.Tk()
         global USER_VIEW_OPEN
@@ -84,7 +87,7 @@ class GUI:
 
         self.canvas = tk.Label(self.mainWindow)
         self.button = tk.Button(self.canvas, text="EXIT", width=10, height=2, command=self.closeWindow)
-        self.text = tk.Text(self.canvas, height=1, width=60, font=('Courier', 16))
+        self.text = tk.Text(self.canvas, height=1, width=70, font=('Courier', 16))
         self.canvas.pack()
         self.text.pack()
         self.button.pack()
@@ -94,7 +97,7 @@ class GUI:
         self.mainWindow.protocol("WM_DELETE_WINDOW", self.closeWindow)  # calls closeWindow() if user clicks red 'x'
 
         # for backend
-        self.Roster = initRoster()              # creat a golable Roster which is a quene of a Student object
+        self.Roster = Roster             # creat a golable Roster which is a quene of a Student object
         self.onDeck = initDeck(self.Roster)     # 4 student object on deck, current_Index will be the index 
         self.current_Index = 0                  # the picked student's index in onDeck queue
         self.flagQ = classQueue()               # a list of student been flag 
@@ -104,6 +107,7 @@ class GUI:
         self.mainWindow.destroy()
         global USER_VIEW_OPEN
         global USER_VIEW_WINDOW
+
         USER_VIEW_OPEN = 0
         USER_VIEW_WINDOW = None
 
@@ -127,6 +131,8 @@ class GUI:
         names, highlightBegin, highlightEnd = OnDeckString(self.current_Index, self.onDeck)
         # print(names, highlightBegin, highlightEnd)
         self.update(names, highlightBegin, highlightEnd)
+        overwriteRosterFile(self.path, self.Roster)
+
 
     def downKey(self, event):
         # print("Down key pressed")
@@ -145,6 +151,7 @@ class GUI:
         self.text.configure(state='normal')  # reset state in order to change the names
         self.text.delete('1.0', tk.END)      # clear names
         self.text.insert('1.0', inText)      # write text to GUI
+        self.text.configure(width=len(inText)+5)
 
         # now add highlighting
         self.text.tag_add('tag1', '1.{}'.format(highlightStart), '1.{}'.format(highlightEnd))
@@ -152,70 +159,8 @@ class GUI:
         self.text.configure(state='disabled')  # prevents user from clicking and editing the text
         self.mainWindow.update()
 
-
-class _MessageBox:
-    def __init__(self, title: str, heading: str, msg: str):
-        self.title = title
-        self.heading = heading
-        self.msg = msg
-        self.canvasWidth = 450
-        self.canvasHeight = 170
-        self.root = tk.Tk()
-
-        self.iconFile = None
-
-    def closeBox(self):
-        self.root.destroy()
-
-    def display(self):
-
-        if self.iconFile is None:
-            raise NotImplementedError("cannot use _MessageBox to create a message. Use a child class instead.")
-
-        self.root.title(self.title)
-        canvas = tk.Canvas(self.root, height=self.canvasHeight, width=self.canvasWidth,
-                           bg='#D3D3D3', highlightthickness=0)
-
-        # center the window on the screen
-        width = self.root.winfo_screenwidth()  # width of mac screen (pixels)
-        height = self.root.winfo_screenheight()  # height of mac screen (pixels)
-        x = (width // 2) - (self.canvasWidth // 2)
-        y = (height // 2) - (self.canvasHeight // 2)
-        self.root.geometry("{}x{}+{}+{}".format(self.canvasWidth, self.canvasHeight, x, y))
-
-        # force the window to be in front of all other windows
-        self.root.attributes("-topmost", True)
-
-        image = tk.PhotoImage(master=canvas, file=self.iconFile)  # file MUST be .gif
-        canvas.create_image(60, 50, image=image)
-
-        # print error message
-        # (pixels to right from left edge, pixels down, ...)
-        canvas.create_text(120, 30, text=self.heading, anchor='w', font=('Calibri', 20, 'bold'))
-        canvas.create_text(120, 50, text=self.msg, anchor='nw', font=('Calibri', 16))
-
-        ok = tk.Button(canvas, text="OK", width=10, height=2, highlightbackground='#D3D3D3', command=self.closeBox)
-        ok.place(x=175, y=100)
-        # ok.configure(foreground='blue')
-
-        canvas.pack()
-        self.root.mainloop()
-
-class ErrorBox(_MessageBox):
-    def __init__(self, title: str, heading: str, msg: str):
-        super().__init__(title, heading, msg)
-        self.iconFile = 'error_icon.gif'
-
-class WarningBox(_MessageBox):
-    def __init__(self, title: str, heading: str, msg: str):
-        super().__init__(title, heading, msg)
-        self.iconFile = 'warning_icon.gif'
-
-def displayError(title: str, heading: str, msg: str):
-    ErrorBox(title, heading, msg).display()
-
-def displayWarning(title: str, heading: str, msg: str):
-    WarningBox(title, heading, msg).display()
+def displayMessage(title: str, msg: str):
+    os.system("""osascript -e 'display notification "{}" with title "{}"' """.format(msg, title))
 
 def userViewOpen():
     return USER_VIEW_OPEN
@@ -293,23 +238,25 @@ def testScreenUpdate():
 def testcontrol(path, studentQ):
     global USER_VIEW_WINDOW
 
-    print('--- Starting control test ---')
+    # print('--- Starting control test ---')
 
     # print(type(path))
 
     studentQ.printQ()
 
-    gui = GUI('Students on deck')
+    gui = GUI('Students on deck', studentQ)
+    # print("Before Quene")
+    # gui.Roster.printQ()
     gui.Roster = studentQ
     gui.path = path
     USER_VIEW_WINDOW = gui
 
-    print("self.Roster: ")
-    gui.Roster.printQ()
+    # print("self.Roster: ")
+    # gui.Roster.printQ()
 
 
     names, highlightBegin, highlightEnd = OnDeckString(gui.current_Index, gui.onDeck)
-    print(names)
+    # print(names)
 
     gui.update(names, highlightBegin, highlightEnd)
 
@@ -319,24 +266,13 @@ def testcontrol(path, studentQ):
     gui.mainWindow.bind("<Up>", gui.upKey)
     gui.mainWindow.bind("<Down>", gui.downKey)
 
-    print("\033[38;5;220mClick on the cold call window. After pressing an arrow key,",
-          "\na message should be displayed. Close the cold call window to end the program.",
-          "\nNote: the names and highlighting should not update for this test.\033[0m")
-
     gui.mainWindow.mainloop()
 
-
-
 def main():
+    pass
     #testArrowKeys()
-    # testScreenUpdate()
-    testcontrol()
-    
-    #displayError("Error test", "Error", "this is a test")
-    #displayWarning("Warning test", "Warning", "this is a test")
-
-if __name__ == '__main__':
-    main()
+    #testScreenUpdate()
+    #testcontrol()
 
 """
 Sources:
